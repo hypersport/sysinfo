@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CPU Info</title>
+</head>
+<body>
+物理 CPU 核心数：{{ physical_core_num }}<br>
+逻辑 CPU 核心数：{{ logical_core_num }}<br>
+最近 1 分钟平均负载：{{ load_avg[0] }}<br>
+最近 5 分钟平均负载：{{ load_avg[1] }}<br>
+最近 15 分钟平均负载：{{ load_avg[2] }}<br>
+用户：{{ user_percent }} %<br>
+系统：{{ sys_percent }} %<br>
+空闲：{{ idle_percent }} %<br>
+{% if nice_percent %}
+    nice：{{ nice_percent }} %<br>
+{% endif %}
+{% if iowait_percent %}
+    iowait：{{ iowait_percent }} %<br>
+{% endif %}
+{% if else_percent %}
+    其他：{{ else_percent }} %<br>
+{% endif %}
+正在运行频率：{{ run_freq }} GHz<br>
+最低运行频率：{{ min_freq }} GHz<br>
+最高运行频率：{{ max_freq }} GHz<br>
+</body>
+</html>
