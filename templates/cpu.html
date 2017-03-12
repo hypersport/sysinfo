@@ -10,20 +10,20 @@
 最近 1 分钟平均负载：{{ load_avg[0] }}<br>
 最近 5 分钟平均负载：{{ load_avg[1] }}<br>
 最近 15 分钟平均负载：{{ load_avg[2] }}<br>
-用户：{{ user_percent }} %<br>
-系统：{{ sys_percent }} %<br>
-空闲：{{ idle_percent }} %<br>
-{% if nice_percent %}
-    nice：{{ nice_percent }} %<br>
+用户：{{ cpu_time_percent.user }} %<br>
+系统：{{ cpu_time_percent.system }} %<br>
+空闲：{{ cpu_time_percent.idle }} %<br>
+{% if cpu_time_percent.nice %}
+    nice：{{ cpu_time_percent.nice }} %<br>
 {% endif %}
-{% if iowait_percent %}
-    iowait：{{ iowait_percent }} %<br>
+{% if cpu_time_percent.iowait %}
+    iowait：{{ cpu_time_percent.iowait }} %<br>
 {% endif %}
 {% if else_percent %}
     其他：{{ else_percent }} %<br>
 {% endif %}
-正在运行频率：{{ run_freq }} GHz<br>
-最低运行频率：{{ min_freq }} GHz<br>
-最高运行频率：{{ max_freq }} GHz<br>
+正在运行频率：{{ (cpu_freq.current/1000)|round(2) }} GHz<br>
+最低运行频率：{{ (cpu_freq.min/1000)|round(2) }} GHz<br>
+最高运行频率：{{ (cpu_freq.max/1000)|round(2) }} GHz<br>
 </body>
 </html>

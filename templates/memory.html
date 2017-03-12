@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Memory Info</title>
+</head>
+<body>
+内存大小：{{ memory_info.total|format_memory }}<br>
+可用内存：{{ memory_info.available|format_memory }}<br>
+内存占用：{{ memory_info.percent }} %<br>
+已用内存：{{ memory_info.used|format_memory }}<br>
+空闲内存：{{ memory_info.free|format_memory }}<br>
+buffers：{{ memory_info.buffers|format_memory }}<br>
+cached：{{ memory_info.cached|format_memory }}<br>
+共享内存：{{ memory_info.shared|format_memory }}<br>
+<br>
+SWAP:<br>
+大小：{{ swap_memory.total|format_memory }}<br>
+已用：{{ swap_memory.used|format_memory }} ( {{ swap_memory.percent }} % )<br>
+空闲：{{ swap_memory.free|format_memory }}<br>
+IN：{{ swap_memory.sin|format_memory }}<br>
+OUT：{{ swap_memory.sout|format_memory }}
+</body>
+</html>
