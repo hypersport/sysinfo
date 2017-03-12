@@ -19,6 +19,7 @@ def index():
         str(now_time - boot_time).split('.')[0].split(':')[1],
         str(now_time - boot_time).split('.')[0].split(':')[2]
     )
+    users = psutil.users()
 
     return render_template('index.html',
                            sys_name=info[1],
@@ -28,7 +29,8 @@ def index():
                            sys_framework=info[4],
                            now_time=now_time_format,
                            boot_time=boot_time_format,
-                           up_time=up_time
+                           up_time=up_time,
+                           users=users
                            )
 
 
@@ -49,6 +51,7 @@ def cpu_info():
     run_freq = round(psutil.cpu_freq()[0] / 1000, 1)
     min_freq = round(psutil.cpu_freq()[1] / 1000, 1)
     max_freq = round(psutil.cpu_freq()[2] / 1000, 1)
+
     return render_template('cpu.html',
                            physical_core_num=physical_core_num,
                            logical_core_num=logical_core_num,
