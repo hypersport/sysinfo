@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Disk Info</title>
+</head>
+<body>
+物理：
+{% for physical_disk_info in physical_disks_info %}
+    设备：{{ physical_disk_info['device'] }}<br>
+    挂载点：{{ physical_disk_info['mount_point'] }}<br>
+    类型：{{ physical_disk_info['type'] }}<br>
+    选项：{{ physical_disk_info['options'] }}<br>
+    容量：{{ physical_disk_info['space_total']|format_size }}<br>
+    已用：{{ physical_disk_info['space_used']|format_size }} ( {{ physical_disk_info['used_percent'] }} % )<br>
+    剩余：{{ physical_disk_info['space_free']|format_size }}<br>
+    <br>
+{% endfor %}
+分区：
+{% for disk_info in disks_info %}
+    设备：{{ disk_info['device'] }}<br>
+    挂载点：{{ disk_info['mount_point'] }}<br>
+    类型：{{ disk_info['type'] }}<br>
+    选项：{{ disk_info['options'] }}<br>
+    容量：{{ disk_info['space_total']|format_size }}<br>
+    已用：{{ disk_info['space_used']|format_size }} ( {{ disk_info['used_percent'] }} % )<br>
+    剩余：{{ disk_info['space_free']|format_size }}<br>
+    <br>
+{% endfor %}
+</body>
+</html>

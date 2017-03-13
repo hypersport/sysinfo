@@ -60,7 +60,40 @@ def memory():
     memory_info = psutil.virtual_memory()
     swap_memory = psutil.swap_memory()
 
-    return render_template('memory.html',
-                           memory_info=memory_info,
-                           swap_memory=swap_memory
-                           )
+    return render_template('memory.html', memory_info=memory_info, swap_memory=swap_memory)
+
+
+@main.route('/disks')
+def disks():
+    physical_disks_info = []
+    physical_disk_partitions = psutil.disk_partitions()
+    for physical_disk_partition in physical_disk_partitions:
+        physical_disk_usage = psutil.disk_usage(physical_disk_partition.mountpoint)
+        physical_disk = {
+            'device': physical_disk_partition.device,
+            'mount_point': physical_disk_partition.mountpoint,
+            'type': physical_disk_partition.fstype,
+            'options': physical_disk_partition.opts,
+            'space_total': physical_disk_usage.total,
+            'space_used': physical_disk_usage.used,
+            'used_percent': physical_disk_usage.percent,
+            'space_free': physical_disk_usage.free
+        }
+        physical_disks_info.append(physical_disk)
+    disks_info = []
+    disk_partitions_all = psutil.disk_partitions(all)
+    for disk_partition in disk_partitions_all:
+        disk_usage = psutil.disk_usage(disk_partition.mountpoint)
+        disk = {
+            'device': disk_partition.device,
+            'mount_point': disk_partition.mountpoint,
+            'type': disk_partition.fstype,
+            'options': disk_partition.opts,
+            'space_total': disk_usage.total,
+            'space_used': disk_usage.used,
+            'used_percent': disk_usage.percent,
+            'space_free': disk_usage.free
+        }
+        disks_info.append(disk)
+
+    return render_template('disks.html', physical_disks_info=physical_disks_info, disks_info=disks_info)
