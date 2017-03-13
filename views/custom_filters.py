@@ -10,7 +10,7 @@ def format_time(value, date_format='%Y-%m-%d %H:%M:%S'):
     return dt.strftime(date_format)
 
 
-def format_memory(value):
+def format_size(value):
     tmp = value / B_TO_G
     if tmp < 1.0:
         tmp = value / B_TO_M
