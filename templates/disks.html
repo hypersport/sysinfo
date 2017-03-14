@@ -30,12 +30,12 @@
 <h2>磁盘 IO :</h2>
 {% for disk_info, disk_io_info in disks_io_info.items() %}
     设备：{{ disk_info }}<br>
-    IO 读：{{ disk_io_info[0] }}<br>
-    IO 写：{{ disk_io_info[1] }}<br>
-    读字节数：{{ disk_io_info[2] }}<br>
-    写字节数：{{ disk_io_info[3] }}<br>
-    读时间：{{ disk_io_info[4] }}<br>
-    写时间：{{ disk_io_info[5] }}<br>
+    IO 读：{{ disk_io_info.read_count }}<br>
+    IO 写：{{ disk_io_info.write_count }}<br>
+    读字节数：{{ disk_io_info.read_bytes }}<br>
+    写字节数：{{ disk_io_info.write_bytes }}<br>
+    读时间：{{ disk_io_info.read_time }}<br>
+    写时间：{{ disk_io_info.write_time }}<br>
     <br>
 {% endfor %}
 </body>
