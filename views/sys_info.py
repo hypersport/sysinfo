@@ -80,8 +80,9 @@ def disks():
             'space_free': physical_disk_usage.free
         }
         physical_disks_info.append(physical_disk)
+
     disks_info = []
-    disk_partitions_all = psutil.disk_partitions(all)
+    disk_partitions_all = psutil.disk_partitions(all=True)
     for disk_partition in disk_partitions_all:
         disk_usage = psutil.disk_usage(disk_partition.mountpoint)
         disk = {
@@ -96,4 +97,10 @@ def disks():
         }
         disks_info.append(disk)
 
-    return render_template('disks.html', physical_disks_info=physical_disks_info, disks_info=disks_info)
+    disks_io_info = psutil.disk_io_counters(perdisk=True)
+
+    return render_template('disks.html',
+                           physical_disks_info=physical_disks_info,
+                           disks_info=disks_info,
+                           disks_io_info=disks_io_info
+                           )

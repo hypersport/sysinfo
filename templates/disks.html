@@ -5,7 +5,7 @@
     <title>Disk Info</title>
 </head>
 <body>
-物理：
+<h2>物理磁盘:</h2>
 {% for physical_disk_info in physical_disks_info %}
     设备：{{ physical_disk_info['device'] }}<br>
     挂载点：{{ physical_disk_info['mount_point'] }}<br>
@@ -16,7 +16,7 @@
     剩余：{{ physical_disk_info['space_free']|format_size }}<br>
     <br>
 {% endfor %}
-分区：
+<h2>分区信息:</h2>
 {% for disk_info in disks_info %}
     设备：{{ disk_info['device'] }}<br>
     挂载点：{{ disk_info['mount_point'] }}<br>
@@ -25,6 +25,17 @@
     容量：{{ disk_info['space_total']|format_size }}<br>
     已用：{{ disk_info['space_used']|format_size }} ( {{ disk_info['used_percent'] }} % )<br>
     剩余：{{ disk_info['space_free']|format_size }}<br>
+    <br>
+{% endfor %}
+<h2>磁盘 IO :</h2>
+{% for disk_info, disk_io_info in disks_io_info.items() %}
+    设备：{{ disk_info }}<br>
+    IO 读：{{ disk_io_info[0] }}<br>
+    IO 写：{{ disk_io_info[1] }}<br>
+    读字节数：{{ disk_io_info[2] }}<br>
+    写字节数：{{ disk_io_info[3] }}<br>
+    读时间：{{ disk_io_info[4] }}<br>
+    写时间：{{ disk_io_info[5] }}<br>
     <br>
 {% endfor %}
 </body>
