@@ -129,4 +129,6 @@ def network():
         ]
         interfaces_io.append(interface_dict)
 
-    return render_template('network.html', interfaces_io=interfaces_io)
+        net_connections = psutil.net_connections('all')
+
+    return render_template('network.html', interfaces_io=interfaces_io, net_connections=net_connections)
