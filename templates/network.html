@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Network Info</title>
+</head>
+<body>
+网络：<br>
+{% for interface_io_info in interfaces_io %}
+    {% for interface, interface_io in interface_io_info.items() %}
+        接口：{{ interface }}<br>
+        Mac 地址：{{ interface_io[0] }}<br>
+        Ipv4 地址：{{ interface_io[1] }}<br>
+        Ipv6 地址：{{ interface_io[2] }}<br>
+        发送 Bytes：{{ interface_io[3] }}<br>
+        接收 Bytes：{{ interface_io[4] }}<br>
+        发送包：{{ interface_io[5] }}<br>
+        接收包：{{ interface_io[6] }}<br>
+        Error In：{{ interface_io[7] }}<br>
+        Error Out：{{ interface_io[8] }}<br>
+        Drop In：{{ interface_io[9] }}<br>
+        Drop out：{{ interface_io[10] }}<br>
+        <br>
+    {% endfor %}
+{% endfor %}
+</body>
+</html>

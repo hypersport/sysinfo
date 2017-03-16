@@ -4,6 +4,7 @@ from flask import render_template
 import os
 import psutil
 import datetime
+import netifaces
 
 
 @main.route('/')
@@ -104,3 +105,28 @@ def disks():
                            disks_info=disks_info,
                            disks_io_info=disks_io_info
                            )
+
+
+@main.route('/network')
+def network():
+    net_io_counts = psutil.net_io_counters(pernic=True)
+    interfaces_io = []
+    for interface in net_io_counts:
+        interface_dict = {}
+        addrs = netifaces.ifaddresses(interface)
+        interface_dict[interface] = [
+            addrs[17][0]['addr'],  # MAC address
+            addrs[2][0]['addr'],  # IPV4 address
+            addrs[10][0]['addr'].split('%')[0],  # IPV6 address
+            net_io_counts[interface].bytes_sent,
+            net_io_counts[interface].bytes_recv,
+            net_io_counts[interface].packets_sent,
+            net_io_counts[interface].packets_recv,
+            net_io_counts[interface].errin,
+            net_io_counts[interface].errout,
+            net_io_counts[interface].dropin,
+            net_io_counts[interface].dropout
+        ]
+        interfaces_io.append(interface_dict)
+
+    return render_template('network.html', interfaces_io=interfaces_io)
