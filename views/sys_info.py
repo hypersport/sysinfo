@@ -114,10 +114,18 @@ def network():
     for interface in net_io_counts:
         interface_dict = {}
         addrs = netifaces.ifaddresses(interface)
+        ipv4_addr_info = addrs.get(2, None)
+        ipv4_addr = None
+        if ipv4_addr_info:
+            ipv4_addr = ipv4_addr_info[0].get('addr', None)
+        ipv6_addr_info = addrs.get(10, None)
+        ipv6_addr = None
+        if ipv6_addr_info:
+            ipv6_addr = ipv6_addr_info[0].get('addr', None)
         interface_dict[interface] = [
             addrs[17][0]['addr'],  # MAC address
-            addrs[2][0]['addr'],  # IPV4 address
-            addrs[10][0]['addr'].split('%')[0],  # IPV6 address
+            ipv4_addr,  # IPV4 address
+            ipv6_addr,  # IPV6 address
             net_io_counts[interface].bytes_sent,
             net_io_counts[interface].bytes_recv,
             net_io_counts[interface].packets_sent,
