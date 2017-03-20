@@ -115,17 +115,17 @@ def network():
         interface_dict = {}
         addrs = netifaces.ifaddresses(interface)
         ipv4_addr_info = addrs.get(2, None)
-        ipv4_addr = None
+        ipv4_addr = ''
         if ipv4_addr_info:
             ipv4_addr = ipv4_addr_info[0].get('addr', None)
         ipv6_addr_info = addrs.get(10, None)
-        ipv6_addr = None
+        ipv6_addr = ''
         if ipv6_addr_info:
             ipv6_addr = ipv6_addr_info[0].get('addr', None)
         interface_dict[interface] = [
             addrs[17][0]['addr'],  # MAC address
-            ipv4_addr,  # IPV4 address
-            ipv6_addr,  # IPV6 address
+            ipv4_addr,
+            ipv6_addr,
             net_io_counts[interface].bytes_sent,
             net_io_counts[interface].bytes_recv,
             net_io_counts[interface].packets_sent,
@@ -140,3 +140,23 @@ def network():
         net_connections = psutil.net_connections('all')
 
     return render_template('network.html', interfaces_io=interfaces_io, net_connections=net_connections)
+
+
+@main.route('/processes')
+def process():
+    processes = []
+    for p in psutil.process_iter():
+        process_info = {
+            'name': p.name(),
+            'pid': p.pid,
+            'username': p.username(),
+            'cpu_percent': p.cpu_percent(),
+            'memory_percent': p.memory_percent(),
+            'memory_rss': p.memory_info().rss,
+            'memory_vms': p.memory_info().vms,
+            'status': p.status(),
+            'created_time': p.create_time(),
+            'cmdline': ' '.join(p.cmdline())
+        }
+        processes.append(process_info)
+    return render_template('processes.html', processes=processes)
