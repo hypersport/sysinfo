@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Process Info</title>
+</head>
+<body>
+<div class="main-view">
+    进程：{{ process_info.get('name', None) }}
+    进程号：{{ process_info.get('pid', None) }}
+    父进程：{{ process_info.get('parent', None) }}
+    父进程号：{{ process_info.get('ppid', None) }}
+    路径：{{ ' '.join(process_info.get('cmdline', None)) }}
+    用户：{{ process_info.get('username', None) }}
+    用户 ID ：{{ process_info.get('uids', None) }}
+    组 ID ：{{ process_info.get('gids', None) }}
+    创建时间：{{ process_info.get('create_time', None)|format_time }}
+    内存：{{ process_info.get('memory_percent', None) }}
+    内存：{{ process_info.get('memory_info', None) }}
+    终端：{{ process_info.get('terminal', None) }}
+    状态：{{ process_info.get('status', None) }}
+    Nice 值：{{ process_info.get('nice', None) }}
+    目录：{{ process_info.get('cwd', None) }}
+    I/O ：{{ process_info.get('io_counters', None) }}
+    I/O Nice 值：{{ process_info.get('ionice', None) }}
+    文件描述符：{{ process_info.get('num_fds', None) }}
+    上下文切换：{{ process_info.get('num_ctx_switches', None) }}
+    CPU ：{{ process_info.get('cpu_percent', None) }}
+    CPU 时间：{{ process_info.get('cpu_times', None) }}
+    CPU 亲和性：{{ ' '.join(process_info.get('cpu_affinity', None)) }}
+</div>
+{% if process_info.get('memory_maps', None) %}
+    <div class="memory-maps">
+        内存信息：<br>
+        {% for memory_map in process_info.get('memory_maps', None) %}
+            路径：{{ memory_map.path }}
+            RSS：{{ memory_map.rss }}
+            SIZE：{{ memory_map.size }}
+            PSS：{{ memory_map.pss }}
+            Shared Dirty：{{ memory_map.shared_dirty }}
+            Shared Clean：{{ memory_map.shared_clean }}
+            Private Dirty：{{ memory_map.private_dirty }}
+            Private Clean：{{ memory_map.private_clean }}
+            Referenced：{{ memory_map.referenced }}
+            Anonymous：{{ memory_map.anonymous }}
+            Swap：{{ memory_map.swap }}
+            <br>
+        {% endfor %}
+    </div>
+{% endif %}
+{% if process_info.get('threads', None) %}
+    <div class="threads">
+        线程信息：<br>
+        {% for thread in process_info.get('threads', None) %}
+            <a href="{{ url_for('main.process', pid=thread.id) }}">
+                ID：{{ thread.id }}
+                用户时间：{{ thread.user_time }}
+                系统时间：{{ thread.system_time }}
+            </a>
+            <br>
+        {% endfor %}
+    </div>
+{% endif %}
+{% if process_info.get('open_files', None) %}
+    <div class="open-files">
+        打开文件：<br>
+        {% for file in process_info.get('open_files', None) %}
+            路径：{{ file.path }}
+            文件描述符：{{ file.fd }}
+            模式：{{ file.mode }}
+            <br>
+        {% endfor %}
+    </div>
+{% endif %}
+{% if process_info.get('connections', None) %}
+    <div class="connections">
+        链接：<br>
+        {% for connection in process_info.get('connections', None) %}
+            文件描述符：{{ connection.fd }}
+            地址簇：{{ connection.family|socket_family }}
+            类型：{{ connection.type|socket_type }}
+            本地地址：{{ connection.laddr|format_addr_port }}
+            远程地址：{{ connection.raddr|format_addr_port }}
+            状态：{{ connection.status }}
+            <br>
+        {% endfor %}
+    </div>
+{% endif %}
+{% if process_info.get('environ', None) %}
+    <div class="environment">
+        {% for key, value in process_info.get('environ', None).items() %}
+            {{ key }} : {{ value }}<br>
+        {% endfor %}
+    </div>
+{% endif %}
+{% if process_info.get('children', None) %}
+    <div class="children">
+        子进程：<br>
+        {% for child in process_info.get('children', None) %}
+            <a href="{{ url_for('main.process', pid=child.pid) }}">
+                进程号：{{ child.pid }}
+                进程：{{ child.name }}
+                用户：{{ child.username }}
+                内存：{{ child.memory_percent }}
+                CPU ：{{ child.cpu_percent }}
+                状态：{{ child.status }}
+            </a>
+            <br>
+        {% endfor %}
+    </div>
+{% endif %}
+{% if process_info.get('limits', None) %}
+    资源限制：<br>
+    {% for resource, limits in process_info.get('limits', None).items() %}
+        资源：{{ resource }}
+        软限制：{{ limits[0] }}
+        硬限制：{{ limits[1] }}
+        <br>
+    {% endfor %}
+{% endif %}
+</body>
+</html>

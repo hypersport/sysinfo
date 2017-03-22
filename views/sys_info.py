@@ -1,6 +1,7 @@
 # coding=utf-8
 from . import main
 from flask import render_template
+from .tools import get_rlimits
 import os
 import psutil
 import datetime
@@ -115,11 +116,11 @@ def network():
         interface_dict = {}
         addrs = netifaces.ifaddresses(interface)
         ipv4_addr_info = addrs.get(2, None)
-        ipv4_addr = ''
+        ipv4_addr = None
         if ipv4_addr_info:
             ipv4_addr = ipv4_addr_info[0].get('addr', None)
         ipv6_addr_info = addrs.get(10, None)
-        ipv6_addr = ''
+        ipv6_addr = None
         if ipv6_addr_info:
             ipv6_addr = ipv6_addr_info[0].get('addr', None)
         interface_dict[interface] = [
@@ -137,13 +138,13 @@ def network():
         ]
         interfaces_io.append(interface_dict)
 
-        net_connections = psutil.net_connections('all')
+        net_connections = psutil.net_connections(kind='all')
 
     return render_template('network.html', interfaces_io=interfaces_io, net_connections=net_connections)
 
 
 @main.route('/processes')
-def process():
+def all_process():
     processes = []
     for p in psutil.process_iter():
         process_info = {
@@ -160,3 +161,15 @@ def process():
         }
         processes.append(process_info)
     return render_template('processes.html', processes=processes)
+
+
+@main.route('/process/<int:pid>')
+def process(pid):
+    the_process = psutil.Process(pid)
+    parent_process = the_process.parent()
+    process_info = the_process.as_dict()
+    process_info['parent'] = parent_process.name() if parent_process else None
+    process_info['cpu_affinity'] = [str(n) for n in process_info['cpu_affinity']]
+    process_info['limits'] = get_rlimits(the_process)
+
+    return render_template('process.html', process_info=process_info)
