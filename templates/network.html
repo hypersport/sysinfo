@@ -25,13 +25,15 @@
 {% endfor %}
 链接：<br>
 {% for net_connection in net_connections %}
-    文件描述符：{{ net_connection.fd }}<br>
-    进程 ID：{{ net_connection.pid }}<br>
-    地址簇：{{ net_connection.family|socket_family }}<br>
-    类型：{{ net_connection.type|socket_type }}<br>
-    本地地址：{{ net_connection.laddr|format_addr_port }}<br>
-    远程地址：{{ net_connection.raddr|format_addr_port }}<br>
-    状态：{{ net_connection.status }}<br>
+    <a href="{{ url_for('main.process', pid=net_connection.pid) }}">
+        文件描述符：{{ net_connection.fd }}<br>
+        进程 ID：{{ net_connection.pid }}<br>
+        地址簇：{{ net_connection.family|socket_family }}<br>
+        类型：{{ net_connection.type|socket_type }}<br>
+        本地地址：{{ net_connection.laddr|format_addr_port }}<br>
+        远程地址：{{ net_connection.raddr|format_addr_port }}<br>
+        状态：{{ net_connection.status }}<br>
+    </a>
     <br>
 {% endfor %}
 </body>

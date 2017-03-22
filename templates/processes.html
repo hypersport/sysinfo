@@ -2,22 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Process Info</title>
+    <title>Processes Info</title>
 </head>
 <body>
 {% for process in processes %}
-    进程：{{ process['name'] }}&#9
-    进程号：{{ process['pid'] }}&#9
-    用户：{{ process['username'] }}&#9
-    状态：{{ process['status'] }}&#9
-    CPU：{{ process['cpu_percent']|round(2) }} %&#9
-    内存：{{ process['memory_percent']|round(2) }} %&#9
-    内存 RSS：{{ process['memory_rss']|format_size }}&#9
-    内存 VMS：{{ process['memory_vms']|format_size }}&#9
-    创建时间：{{ process['created_time']|format_time }}&#9
-    {% if process['cmdline'] %}
-        路径：{{ process['cmdline'] }}<br>
-    {% endif %}
+    <a href="{{ url_for('main.process', pid=process['pid']) }}">
+        进程：{{ process['name'] }}&#9
+        进程号：{{ process['pid'] }}&#9
+        用户：{{ process['username'] }}&#9
+        状态：{{ process['status'] }}&#9
+        CPU：{{ process['cpu_percent']|round(2) }} %&#9
+        内存：{{ process['memory_percent']|round(2) }} %&#9
+        内存 RSS：{{ process['memory_rss']|format_size }}&#9
+        内存 VMS：{{ process['memory_vms']|format_size }}&#9
+        创建时间：{{ process['created_time']|format_time }}&#9
+        {% if process['cmdline'] %}
+            路径：{{ process['cmdline'] }}
+        {% endif %}
+    </a>
+    <br>
     <br>
 {% endfor %}
 </body>
