@@ -1,23 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Info</title>
-</head>
-<body>
-主机名：{{ sys_name }}<br>
-内核名称：{{ kernel_name }}<br>
-发行版本号：{{ kernel_no }}<br>
-内核版本：{{ kernel_version }}<br>
-系统架构：{{ sys_framework }}<br>
-现在时间：{{ now_time }}<br>
-开机时间：{{ boot_time }}<br>
-运行时间：{{ up_time }}<br>
-{% for user in users %}
-    用户名：{{ user[0] }}<br>
-    终端：{{ user[1] }}<br>
-    主机名：{{ user[2] }}<br>
-    登录时间：{{ user[3]|format_time }}<br>
-{% endfor %}
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}Sys Info{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <div class="page-header">
+        <h1>系统信息</h1>
+    </div>
+    <div>
+        <table class="table table-bordered">
+            <tr>
+                <td>主机名</td>
+                <td>{{ sys_name }}</td>
+            </tr>
+            <tr>
+                <td>内核名称</td>
+                <td>{{ kernel_name }}</td>
+            </tr>
+            <tr>
+                <td>发行版本号</td>
+                <td>{{ kernel_no }}</td>
+            </tr>
+            <tr>
+                <td>内核版本</td>
+                <td>{{ kernel_version }}</td>
+            </tr>
+            <tr>
+                <td>系统架构</td>
+                <td>{{ sys_framework }}</td>
+            </tr>
+            <tr>
+                <td>现在时间</td>
+                <td>{{ now_time }}</td>
+            </tr>
+            <tr>
+                <td>开机时间</td>
+                <td>{{ boot_time }}</td>
+            </tr>
+            <tr>
+                <td>运行时间</td>
+                <td>{{ up_time }}</td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}
