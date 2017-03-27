@@ -21,7 +21,6 @@ def index():
         str(now_time - boot_time).split('.')[0].split(':')[1],
         str(now_time - boot_time).split('.')[0].split(':')[2]
     )
-    users = psutil.users()
 
     return render_template('index.html',
                            sys_name=info[1],
@@ -31,9 +30,15 @@ def index():
                            sys_framework=info[4],
                            now_time=now_time_format,
                            boot_time=boot_time_format,
-                           up_time=up_time,
-                           users=users
+                           up_time=up_time
                            )
+
+
+@main.route('/users')
+def all_user():
+    users = psutil.users()
+
+    return render_template('users.html', users=users)
 
 
 @main.route('/cpu')
