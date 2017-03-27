@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html {% block html_attribs %}{% endblock html_attribs %}>
+<head>
+    {%- block head %}
+        <meta charset="UTF-8">
+        <title>{% block title %}{{ title|default }}{% endblock title %}</title>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+        <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+        <link rel="stylesheet" type="text/css" href="{{ url_for("static", filename="css/bootstrap.css") }}">
+        <script src="{{ url_for("static", filename="js/jquery-3.1.1.min.js") }}"></script>
+    {% endblock head -%}
+</head>
+<body>
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{{ url_for('main.index') }}">Sys Info</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{{ url_for('main.index') }}">系统</a></li>
+                <li><a href="{{ url_for('main.cpu_info') }}">CPU</a></li>
+                <li><a href="{{ url_for('main.memory') }}">内存</a></li>
+                <li><a href="{{ url_for('main.disks') }}">磁盘</a></li>
+                <li><a href="{{ url_for('main.network') }}">网络</a></li>
+                <li><a href="{{ url_for('main.all_process') }}">进程</a></li>
+                <li><a href="{{ url_for('main.all_user') }}">用户</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+</body>
+</html>
