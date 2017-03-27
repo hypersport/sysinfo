@@ -1,42 +1,90 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Disk Info</title>
-</head>
-<body>
-<h2>物理磁盘:</h2>
-{% for physical_disk_info in physical_disks_info %}
-    设备：{{ physical_disk_info['device'] }}<br>
-    挂载点：{{ physical_disk_info['mount_point'] }}<br>
-    类型：{{ physical_disk_info['type'] }}<br>
-    选项：{{ physical_disk_info['options'] }}<br>
-    容量：{{ physical_disk_info['space_total']|format_size }}<br>
-    已用：{{ physical_disk_info['space_used']|format_size }} ( {{ physical_disk_info['used_percent'] }} % )<br>
-    剩余：{{ physical_disk_info['space_free']|format_size }}<br>
-    <br>
-{% endfor %}
-<h2>分区信息:</h2>
-{% for disk_info in disks_info %}
-    设备：{{ disk_info['device'] }}<br>
-    挂载点：{{ disk_info['mount_point'] }}<br>
-    类型：{{ disk_info['type'] }}<br>
-    选项：{{ disk_info['options'] }}<br>
-    容量：{{ disk_info['space_total']|format_size }}<br>
-    已用：{{ disk_info['space_used']|format_size }} ( {{ disk_info['used_percent'] }} % )<br>
-    剩余：{{ disk_info['space_free']|format_size }}<br>
-    <br>
-{% endfor %}
-<h2>磁盘 IO :</h2>
-{% for disk_info, disk_io_info in disks_io_info.items() %}
-    设备：{{ disk_info }}<br>
-    IO 读：{{ disk_io_info.read_count }}<br>
-    IO 写：{{ disk_io_info.write_count }}<br>
-    读字节数：{{ disk_io_info.read_bytes }}<br>
-    写字节数：{{ disk_io_info.write_bytes }}<br>
-    读时间 ( ms )：{{ disk_io_info.read_time }}<br>
-    写时间 ( ms )：{{ disk_io_info.write_time }}<br>
-    <br>
-{% endfor %}
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}Disk Info{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <div class="page-header">
+        <h1>磁盘信息</h1>
+    </div>
+    <div>
+        <table class="table table-bordered">
+            <tr>
+                <td>设备</td>
+                <td>挂载点</td>
+                <td>容量</td>
+                <td>已用</td>
+                <td>剩余</td>
+                <td>类型</td>
+                <td>选项</td>
+            </tr>
+            {% for physical_disk_info in physical_disks_info %}
+                <tr>
+                    <td>{{ physical_disk_info['device'] }}</td>
+                    <td>{{ physical_disk_info['mount_point'] }}</td>
+                    <td>{{ physical_disk_info['space_total']|format_size }}</td>
+                    <td>
+                        {{ physical_disk_info['space_used']|format_size }} ( {{ physical_disk_info['used_percent'] }} %)
+                    </td>
+                    <td>{{ physical_disk_info['space_free']|format_size }}</td>
+                    <td>{{ physical_disk_info['type'] }}</td>
+                    <td>{{ physical_disk_info['options'] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="page-header">
+        <h1>分区信息</h1>
+    </div>
+    <div>
+        <table class="table table-bordered">
+            <tr>
+                <td>设备</td>
+                <td>挂载点</td>
+                <td>容量</td>
+                <td>已用</td>
+                <td>剩余</td>
+                <td>类型</td>
+                <td>选项</td>
+            </tr>
+            {% for disk_info in disks_info %}
+                <tr>
+                    <td>{{ disk_info['device'] }}</td>
+                    <td>{{ disk_info['mount_point'] }}</td>
+                    <td>{{ disk_info['space_total']|format_size }}</td>
+                    <td>{{ disk_info['space_used']|format_size }} ( {{ disk_info['used_percent'] }} % )</td>
+                    <td>{{ disk_info['space_free']|format_size }}</td>
+                    <td>{{ disk_info['type'] }}</td>
+                    <td>{{ disk_info['options'] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="page-header">
+        <h1>磁盘 IO</h1>
+    </div>
+    <div>
+        <table class="table table-bordered">
+            <tr>
+                <td>设备</td>
+                <td>IO 读</td>
+                <td>IO 写</td>
+                <td>读字节数</td>
+                <td>写字节数</td>
+                <td>读时间 ( ms )</td>
+                <td>写时间 ( ms )</td>
+            </tr>
+            {% for disk_info, disk_io_info in disks_io_info.items() %}
+                <tr>
+                    <td>{{ disk_info }}</td>
+                    <td>{{ disk_io_info.read_count }}</td>
+                    <td>{{ disk_io_info.write_count }}</td>
+                    <td>{{ disk_io_info.read_bytes }}</td>
+                    <td>{{ disk_io_info.write_bytes }}</td>
+                    <td>{{ disk_io_info.read_time }}</td>
+                    <td>{{ disk_io_info.write_time }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
