@@ -121,13 +121,13 @@ def network():
         interface_dict = {}
         addrs = netifaces.ifaddresses(interface)
         ipv4_addr_info = addrs.get(2, None)
-        ipv4_addr = None
+        ipv4_addr = ''
         if ipv4_addr_info:
-            ipv4_addr = ipv4_addr_info[0].get('addr', None)
+            ipv4_addr = ipv4_addr_info[0].get('addr', '')
         ipv6_addr_info = addrs.get(10, None)
-        ipv6_addr = None
+        ipv6_addr = ''
         if ipv6_addr_info:
-            ipv6_addr = ipv6_addr_info[0].get('addr', None)
+            ipv6_addr = ipv6_addr_info[0].get('addr', '')
         interface_dict[interface] = [
             addrs[17][0]['addr'],  # MAC address
             ipv4_addr,
