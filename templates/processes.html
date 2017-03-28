@@ -1,27 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Processes Info</title>
-</head>
-<body>
-{% for process in processes %}
-    <a href="{{ url_for('main.process', pid=process['pid']) }}">
-        进程：{{ process['name'] }}&#9
-        进程号：{{ process['pid'] }}&#9
-        用户：{{ process['username'] }}&#9
-        状态：{{ process['status'] }}&#9
-        CPU：{{ process['cpu_percent']|round(2) }} %&#9
-        内存：{{ process['memory_percent']|round(2) }} %&#9
-        内存 RSS：{{ process['memory_rss']|format_size }}&#9
-        内存 VMS：{{ process['memory_vms']|format_size }}&#9
-        创建时间：{{ process['created_time']|format_time }}&#9
-        {% if process['cmdline'] %}
-            路径：{{ process['cmdline'] }}
-        {% endif %}
-    </a>
-    <br>
-    <br>
-{% endfor %}
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}Processes{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <div class="page-header">
+        <h1>进程信息</h1>
+    </div>
+    <div>
+        <table class="table table-bordered">
+            <tr>
+                <td>进程</td>
+                <td>进程号</td>
+                <td>用户</td>
+                <td>状态</td>
+                <td>CPU</td>
+                <td>内存</td>
+                <td>内存 RSS</td>
+                <td>内存 VMS</td>
+                <td>创建时间</td>
+                <td>路径</td>
+            </tr>
+            {% for process in processes %}
+                <tr>
+                <td>{{ process['name'] }}</td>
+                <td>
+                    {% if process['pid'] %}
+                        <a href="{{ url_for('main.process', pid=process['pid']) }}">
+                            {{ process['pid'] }}
+                        </a>
+                    {% endif %}
+                </td>
+                <td>{{ process['username'] }}</td>
+                <td>{{ process['status'] }}</td>
+                <td>{{ process['cpu_percent']|round(2) }} %</td>
+                <td>{{ process['memory_percent']|round(2) }} %</td>
+                <td>{{ process['memory_rss']|format_size }}</td>
+                <td>{{ process['memory_vms']|format_size }}</td>
+                <td>{{ process['created_time']|format_time }}</td>
+                <td>
+                    {% if process['cmdline'] %}
+                        {{ process['cmdline'] }}
+                    {% endif %}
+                </td>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
