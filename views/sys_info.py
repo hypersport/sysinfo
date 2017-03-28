@@ -171,10 +171,21 @@ def all_process():
 @main.route('/process/<int:pid>')
 def process(pid):
     the_process = psutil.Process(pid)
+    children = []
+    for p in the_process.children():
+        child = {
+            'pid': p.pid,
+            'name': p.name(),
+            'username': p.username(),
+            'status': p.status()
+        }
+        children.append(child)
     parent_process = the_process.parent()
     process_info = the_process.as_dict()
     process_info['parent'] = parent_process.name() if parent_process else None
     process_info['cpu_affinity'] = [str(n) for n in process_info['cpu_affinity']]
     process_info['limits'] = get_rlimits(the_process)
+    if children:
+        process_info['children'] = children
 
     return render_template('process.html', process_info=process_info)
