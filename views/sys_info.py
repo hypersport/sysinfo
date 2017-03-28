@@ -143,7 +143,7 @@ def network():
         ]
         interfaces_io.append(interface_dict)
 
-        net_connections = psutil.net_connections(kind='all')
+    net_connections = psutil.net_connections(kind='all')
 
     return render_template('network.html', interfaces_io=interfaces_io, net_connections=net_connections)
 
