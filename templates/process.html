@@ -2,6 +2,11 @@
 {% block title %}Process Info{% endblock %}
 {% block head %}
     {{ super() }}
+    <style type="text/css">
+        .thread-info table tr:nth-child(1) {
+            background: #c0a16b;
+        }
+    </style>
 {% endblock %}
 {% block content %}
     <div class="page-header">
@@ -103,7 +108,7 @@
         <div class="page-header">
             <h1>内存信息</h1>
         </div>
-        <div>
+        <div class="thread-info">
             <table class="table table-bordered">
                 <tr>
                     <td>路径</td>
@@ -140,7 +145,7 @@
         <div class="page-header">
             <h1>线程信息</h1>
         </div>
-        <div>
+        <div class="thread-info">
             <table class="table table-bordered">
                 <tr>
                     <td>ID</td>
@@ -166,7 +171,7 @@
         <div class="page-header">
             <h1>打开文件</h1>
         </div>
-        <div>
+        <div class="thread-info">
             <table class="table table-bordered">
                 <tr>
                     <td>路径</td>
@@ -187,7 +192,7 @@
         <div class="page-header">
             <h1>进程链接</h1>
         </div>
-        <div>
+        <div class="thread-info">
             <table class="table table-bordered">
                 <tr>
                     <td>文件描述符</td>
@@ -214,7 +219,7 @@
         <div class="page-header">
             <h1>进程环境</h1>
         </div>
-        <div>
+        <div class="thread-info">
             <table class="table table-bordered">
                 {% for key, value in process_info.get('environ', None).items() %}
                     <tr>
@@ -229,7 +234,7 @@
         <div class="page-header">
             <h1>子进程</h1>
         </div>
-        <div>
+        <div class="thread-info">
             <table class="table table-bordered">
                 <tr>
                     <td>进程号</td>
@@ -258,7 +263,7 @@
         <div class="page-header">
             <h1>资源限制</h1>
         </div>
-        <div>
+        <div class="thread-info">
             <table class="table table-bordered">
                 <tr>
                     <td>资源</td>
