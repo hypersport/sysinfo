@@ -1,6 +1,8 @@
 #disks table tr:nth-child(1),
 #parts table tr:nth-child(1),
-#disk-io table tr:nth-child(1) {
+#disk-io table tr:nth-child(1),
+#network-info table tr:nth-child(1),
+#connections-info table tr:nth-child(1) {
     background: #c0a16b;
 }
 
@@ -8,18 +10,12 @@ table tr:nth-child(odd) {
     background: #cccccc;
 }
 
-#memory-span,
-#swap-span,
-#disk-span,
-#part-span,
-#disk-io-span {
+.self-span-style span {
     font-size: 36px;
     cursor: pointer;
     margin: 5px;
 }
 
-#swap-span,
-#part-span,
-#disk-io-span {
-    color: #cccccc;;
+.latter-show {
+    color: #cccccc;
 }

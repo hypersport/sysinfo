@@ -4,10 +4,10 @@
     {{ super() }}
 {% endblock %}
 {% block content %}
-    <div class="page-header">
+    <div class="page-header self-span-style">
         <span id="memory-span">内存信息</span>
         {% if swap_memory %}
-            <span id="swap-span">SWAP 信息</span>
+            <span class="latter-show" id="swap-span">SWAP 信息</span>
         {% endif %}
     </div>
     <div id="memory">

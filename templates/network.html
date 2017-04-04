@@ -2,17 +2,13 @@
 {% block title %}Network Info{% endblock %}
 {% block head %}
     {{ super() }}
-    <style type="text/css">
-        table tr:nth-child(1) {
-            background: #c0a16b;
-        }
-    </style>
 {% endblock %}
 {% block content %}
-    <div class="page-header">
-        <h1>网络信息</h1>
+    <div class="page-header self-span-style">
+        <span id="network-span">网络信息</span>
+        <span class="latter-show" id="connections-span">网络链接</span>
     </div>
-    <div>
+    <div id="network-info">
         <table class="table table-bordered">
             <tr>
                 <td>接口</td>
@@ -48,10 +44,7 @@
             {% endfor %}
         </table>
     </div>
-    <div class="page-header">
-        <h1>进程链接</h1>
-    </div>
-    <div>
+    <div id="connections-info" hidden>
         <table class="table table-bordered">
             <tr>
                 <td>文件描述符</td>

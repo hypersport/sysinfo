@@ -41,4 +41,18 @@ $(document).ready(function () {
         $("#parts").hide();
         $("#disk-io").show();
     });
+
+    // for network.html
+    $("#network-span").click(function () {
+        $("#connections-span").css("color", "#cccccc");
+        $("#network-span").css("color", "#000000");
+        $("#connections-info").hide();
+        $("#network-info").show();
+    });
+    $("#connections-span").click(function () {
+        $("#network-span").css("color", "#cccccc");
+        $("#connections-span").css("color", "#000000");
+        $("#network-info").hide();
+        $("#connections-info").show();
+    });
 });
