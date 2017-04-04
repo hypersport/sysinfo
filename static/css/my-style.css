@@ -3,7 +3,17 @@ table tr:nth-child(odd) {
 }
 
 #memory-span,
-#swap-span {
+#swap-span,
+#disk-span,
+#part-span,
+#disk-io-span {
     font-size: 36px;
     cursor: pointer;
+    margin: 5px;
+}
+
+#swap-span,
+#part-span,
+#disk-io-span {
+    color: #cccccc;;
 }

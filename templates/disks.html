@@ -10,9 +10,11 @@
 {% endblock %}
 {% block content %}
     <div class="page-header">
-        <h1>磁盘信息</h1>
+        <span id="disk-span">磁盘信息</span>
+        <span id="part-span">分区信息</span>
+        <span id="disk-io-span">磁盘IO</span>
     </div>
-    <div>
+    <div id="disks">
         <table class="table table-bordered">
             <tr>
                 <td>设备</td>
@@ -38,10 +40,7 @@
             {% endfor %}
         </table>
     </div>
-    <div class="page-header">
-        <h1>分区信息</h1>
-    </div>
-    <div>
+    <div id="parts" hidden>
         <table class="table table-bordered">
             <tr>
                 <td>设备</td>
@@ -65,10 +64,7 @@
             {% endfor %}
         </table>
     </div>
-    <div class="page-header">
-        <h1>磁盘 IO</h1>
-    </div>
-    <div>
+    <div id="disk-io" hidden>
         <table class="table table-bordered">
             <tr>
                 <td>设备</td>
