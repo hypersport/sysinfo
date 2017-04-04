@@ -1,0 +1,9 @@
+table tr:nth-child(odd) {
+    background: #cccccc;
+}
+
+#memory-span,
+#swap-span {
+    font-size: 36px;
+    cursor: pointer;
+}
