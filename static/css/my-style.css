@@ -1,3 +1,9 @@
+#disks table tr:nth-child(1),
+#parts table tr:nth-child(1),
+#disk-io table tr:nth-child(1) {
+    background: #c0a16b;
+}
+
 table tr:nth-child(odd) {
     background: #cccccc;
 }
