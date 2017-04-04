@@ -10,66 +10,68 @@
             <span class="latter-show" id="swap-span">SWAP 信息</span>
         {% endif %}
     </div>
-    <div id="memory">
-        <table class="table table-bordered">
-            <tr>
-                <td>内存大小</td>
-                <td>{{ memory_info.total|format_size }}</td>
-            </tr>
-            <tr>
-                <td>可用内存</td>
-                <td>{{ memory_info.available|format_size }}</td>
-            </tr>
-            <tr>
-                <td>内存占用</td>
-                <td>{{ memory_info.percent }} %</td>
-            </tr>
-            <tr>
-                <td>已用内存</td>
-                <td>{{ memory_info.used|format_size }}</td>
-            </tr>
-            <tr>
-                <td>空闲内存</td>
-                <td>{{ memory_info.free|format_size }}</td>
-            </tr>
-            <tr>
-                <td>buffers</td>
-                <td>{{ memory_info.buffers|format_size }}</td>
-            </tr>
-            <tr>
-                <td>cached</td>
-                <td>{{ memory_info.cached|format_size }}</td>
-            </tr>
-            <tr>
-                <td>共享内存</td>
-                <td>{{ memory_info.shared|format_size }}</td>
-            </tr>
-        </table>
-    </div>
-    {% if swap_memory %}
-        <div id="swap-info" hidden>
+    <div>
+        <div id="memory">
             <table class="table table-bordered">
                 <tr>
-                    <td>大小</td>
-                    <td>{{ swap_memory.total|format_size }}</td>
+                    <td>内存大小</td>
+                    <td>{{ memory_info.total|format_size }}</td>
                 </tr>
                 <tr>
-                    <td>已用</td>
-                    <td>{{ swap_memory.used|format_size }} ( {{ swap_memory.percent }} % )</td>
+                    <td>可用内存</td>
+                    <td>{{ memory_info.available|format_size }}</td>
                 </tr>
                 <tr>
-                    <td>空闲</td>
-                    <td>{{ swap_memory.free|format_size }}</td>
+                    <td>内存占用</td>
+                    <td>{{ memory_info.percent }} %</td>
                 </tr>
                 <tr>
-                    <td>IN</td>
-                    <td>{{ swap_memory.sin|format_size }}</td>
+                    <td>已用内存</td>
+                    <td>{{ memory_info.used|format_size }}</td>
                 </tr>
                 <tr>
-                    <td>OUT</td>
-                    <td>{{ swap_memory.sout|format_size }}</td>
+                    <td>空闲内存</td>
+                    <td>{{ memory_info.free|format_size }}</td>
+                </tr>
+                <tr>
+                    <td>buffers</td>
+                    <td>{{ memory_info.buffers|format_size }}</td>
+                </tr>
+                <tr>
+                    <td>cached</td>
+                    <td>{{ memory_info.cached|format_size }}</td>
+                </tr>
+                <tr>
+                    <td>共享内存</td>
+                    <td>{{ memory_info.shared|format_size }}</td>
                 </tr>
             </table>
         </div>
-    {% endif %}
+        {% if swap_memory %}
+            <div id="swap-info" hidden>
+                <table class="table table-bordered">
+                    <tr>
+                        <td>大小</td>
+                        <td>{{ swap_memory.total|format_size }}</td>
+                    </tr>
+                    <tr>
+                        <td>已用</td>
+                        <td>{{ swap_memory.used|format_size }} ( {{ swap_memory.percent }} % )</td>
+                    </tr>
+                    <tr>
+                        <td>空闲</td>
+                        <td>{{ swap_memory.free|format_size }}</td>
+                    </tr>
+                    <tr>
+                        <td>IN</td>
+                        <td>{{ swap_memory.sin|format_size }}</td>
+                    </tr>
+                    <tr>
+                        <td>OUT</td>
+                        <td>{{ swap_memory.sout|format_size }}</td>
+                    </tr>
+                </table>
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}

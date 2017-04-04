@@ -9,78 +9,81 @@
         <span class="latter-show" id="part-span">分区信息</span>
         <span class="latter-show" id="disk-io-span">磁盘IO</span>
     </div>
-    <div id="disks">
-        <table class="table table-bordered">
-            <tr>
-                <td>设备</td>
-                <td>挂载点</td>
-                <td>容量</td>
-                <td>已用</td>
-                <td>剩余</td>
-                <td>类型</td>
-                <td>选项</td>
-            </tr>
-            {% for physical_disk_info in physical_disks_info %}
+    <div>
+        <div id="disks">
+            <table class="table table-bordered">
                 <tr>
-                    <td>{{ physical_disk_info['device'] }}</td>
-                    <td>{{ physical_disk_info['mount_point'] }}</td>
-                    <td>{{ physical_disk_info['space_total']|format_size }}</td>
-                    <td>
-                        {{ physical_disk_info['space_used']|format_size }} ( {{ physical_disk_info['used_percent'] }} %)
-                    </td>
-                    <td>{{ physical_disk_info['space_free']|format_size }}</td>
-                    <td>{{ physical_disk_info['type'] }}</td>
-                    <td>{{ physical_disk_info['options'] }}</td>
+                    <td>设备</td>
+                    <td>挂载点</td>
+                    <td>容量</td>
+                    <td>已用</td>
+                    <td>剩余</td>
+                    <td>类型</td>
+                    <td>选项</td>
                 </tr>
-            {% endfor %}
-        </table>
-    </div>
-    <div id="parts" hidden>
-        <table class="table table-bordered">
-            <tr>
-                <td>设备</td>
-                <td>挂载点</td>
-                <td>容量</td>
-                <td>已用</td>
-                <td>剩余</td>
-                <td>类型</td>
-                <td>选项</td>
-            </tr>
-            {% for disk_info in disks_info %}
+                {% for physical_disk_info in physical_disks_info %}
+                    <tr>
+                        <td>{{ physical_disk_info['device'] }}</td>
+                        <td>{{ physical_disk_info['mount_point'] }}</td>
+                        <td>{{ physical_disk_info['space_total']|format_size }}</td>
+                        <td>
+                            {{ physical_disk_info['space_used']|format_size }}
+                            ( {{ physical_disk_info['used_percent'] }} %)
+                        </td>
+                        <td>{{ physical_disk_info['space_free']|format_size }}</td>
+                        <td>{{ physical_disk_info['type'] }}</td>
+                        <td>{{ physical_disk_info['options'] }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div id="parts" hidden>
+            <table class="table table-bordered">
                 <tr>
-                    <td>{{ disk_info['device'] }}</td>
-                    <td>{{ disk_info['mount_point'] }}</td>
-                    <td>{{ disk_info['space_total']|format_size }}</td>
-                    <td>{{ disk_info['space_used']|format_size }} ( {{ disk_info['used_percent'] }} % )</td>
-                    <td>{{ disk_info['space_free']|format_size }}</td>
-                    <td>{{ disk_info['type'] }}</td>
-                    <td>{{ disk_info['options'] }}</td>
+                    <td>设备</td>
+                    <td>挂载点</td>
+                    <td>容量</td>
+                    <td>已用</td>
+                    <td>剩余</td>
+                    <td>类型</td>
+                    <td>选项</td>
                 </tr>
-            {% endfor %}
-        </table>
-    </div>
-    <div id="disk-io" hidden>
-        <table class="table table-bordered">
-            <tr>
-                <td>设备</td>
-                <td>IO 读</td>
-                <td>IO 写</td>
-                <td>读字节数</td>
-                <td>写字节数</td>
-                <td>读时间 ( ms )</td>
-                <td>写时间 ( ms )</td>
-            </tr>
-            {% for disk_info, disk_io_info in disks_io_info.items() %}
+                {% for disk_info in disks_info %}
+                    <tr>
+                        <td>{{ disk_info['device'] }}</td>
+                        <td>{{ disk_info['mount_point'] }}</td>
+                        <td>{{ disk_info['space_total']|format_size }}</td>
+                        <td>{{ disk_info['space_used']|format_size }} ( {{ disk_info['used_percent'] }} % )</td>
+                        <td>{{ disk_info['space_free']|format_size }}</td>
+                        <td>{{ disk_info['type'] }}</td>
+                        <td>{{ disk_info['options'] }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div id="disk-io" hidden>
+            <table class="table table-bordered">
                 <tr>
-                    <td>{{ disk_info }}</td>
-                    <td>{{ disk_io_info.read_count }}</td>
-                    <td>{{ disk_io_info.write_count }}</td>
-                    <td>{{ disk_io_info.read_bytes }}</td>
-                    <td>{{ disk_io_info.write_bytes }}</td>
-                    <td>{{ disk_io_info.read_time }}</td>
-                    <td>{{ disk_io_info.write_time }}</td>
+                    <td>设备</td>
+                    <td>IO 读</td>
+                    <td>IO 写</td>
+                    <td>读字节数</td>
+                    <td>写字节数</td>
+                    <td>读时间 ( ms )</td>
+                    <td>写时间 ( ms )</td>
                 </tr>
-            {% endfor %}
-        </table>
+                {% for disk_info, disk_io_info in disks_io_info.items() %}
+                    <tr>
+                        <td>{{ disk_info }}</td>
+                        <td>{{ disk_io_info.read_count }}</td>
+                        <td>{{ disk_io_info.write_count }}</td>
+                        <td>{{ disk_io_info.read_bytes }}</td>
+                        <td>{{ disk_io_info.write_bytes }}</td>
+                        <td>{{ disk_io_info.read_time }}</td>
+                        <td>{{ disk_io_info.write_time }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
     </div>
 {% endblock %}
