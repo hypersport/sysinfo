@@ -7,10 +7,10 @@
     <div class="page-header">
         <span id="memory-span">内存信息</span>
         {% if swap_memory %}
-            <span id="swap-span" style="color: #cccccc;">SWAP 信息</span>
+            <span id="swap-span">SWAP 信息</span>
         {% endif %}
     </div>
-    <div class="memory">
+    <div id="memory">
         <table class="table table-bordered">
             <tr>
                 <td>内存大小</td>
@@ -47,7 +47,7 @@
         </table>
     </div>
     {% if swap_memory %}
-        <div class="swap-info" hidden>
+        <div id="swap-info" hidden>
             <table class="table table-bordered">
                 <tr>
                     <td>大小</td>
