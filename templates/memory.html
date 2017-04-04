@@ -5,9 +5,12 @@
 {% endblock %}
 {% block content %}
     <div class="page-header">
-        <h1>内存信息</h1>
+        <span id="memory-span">内存信息</span>
+        {% if swap_memory %}
+            <span id="swap-span" style="color: #cccccc;">SWAP 信息</span>
+        {% endif %}
     </div>
-    <div>
+    <div class="memory">
         <table class="table table-bordered">
             <tr>
                 <td>内存大小</td>
@@ -43,31 +46,30 @@
             </tr>
         </table>
     </div>
-    <div class="page-header">
-        <h1>SWAP 信息</h1>
-    </div>
-    <div>
-        <table class="table table-bordered">
-            <tr>
-                <td>大小</td>
-                <td>{{ swap_memory.total|format_size }}</td>
-            </tr>
-            <tr>
-                <td>已用</td>
-                <td>{{ swap_memory.used|format_size }} ( {{ swap_memory.percent }} % )</td>
-            </tr>
-            <tr>
-                <td>空闲</td>
-                <td>{{ swap_memory.free|format_size }}</td>
-            </tr>
-            <tr>
-                <td>IN</td>
-                <td>{{ swap_memory.sin|format_size }}</td>
-            </tr>
-            <tr>
-                <td>OUT</td>
-                <td>{{ swap_memory.sout|format_size }}</td>
-            </tr>
-        </table>
-    </div>
+    {% if swap_memory %}
+        <div class="swap-info" hidden>
+            <table class="table table-bordered">
+                <tr>
+                    <td>大小</td>
+                    <td>{{ swap_memory.total|format_size }}</td>
+                </tr>
+                <tr>
+                    <td>已用</td>
+                    <td>{{ swap_memory.used|format_size }} ( {{ swap_memory.percent }} % )</td>
+                </tr>
+                <tr>
+                    <td>空闲</td>
+                    <td>{{ swap_memory.free|format_size }}</td>
+                </tr>
+                <tr>
+                    <td>IN</td>
+                    <td>{{ swap_memory.sin|format_size }}</td>
+                </tr>
+                <tr>
+                    <td>OUT</td>
+                    <td>{{ swap_memory.sout|format_size }}</td>
+                </tr>
+            </table>
+        </div>
+    {% endif %}
 {% endblock %}
