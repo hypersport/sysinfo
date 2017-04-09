@@ -1,21 +1,18 @@
-#disks table tr:nth-child(1),
-#parts table tr:nth-child(1),
-#disk-io table tr:nth-child(1),
-#network-info table tr:nth-child(1),
-#connections-info table tr:nth-child(1) {
-    background: #c0a16b;
-}
-
 table tr:nth-child(odd) {
     background: #cccccc;
 }
 
-.self-span-style span {
+.table-div table tr:first-child {
+    background: #c0a16b;
+}
+
+#display {
+    color: #000000;
+}
+
+.page-header a {
+    color: #cccccc;
     font-size: 36px;
     cursor: pointer;
     margin: 5px;
-}
-
-.latter-show {
-    color: #cccccc;
 }
