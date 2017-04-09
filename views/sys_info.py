@@ -62,90 +62,95 @@ def cpu_info():
                            )
 
 
-@main.route('/memory')
-def memory():
-    memory_info = psutil.virtual_memory()
-    swap_memory = psutil.swap_memory()
+@main.route('/memory/', defaults={'part': 'memory'})
+@main.route('/memory/<string:part>')
+def memory(part):
+    if part == 'memory':
+        context = psutil.virtual_memory()
+    elif part == 'swap':
+        context = psutil.swap_memory()
 
-    return render_template('memory.html', memory_info=memory_info, swap_memory=swap_memory)
-
-
-@main.route('/disks')
-def disks():
-    physical_disks_info = []
-    physical_disk_partitions = psutil.disk_partitions()
-    for physical_disk_partition in physical_disk_partitions:
-        physical_disk_usage = psutil.disk_usage(physical_disk_partition.mountpoint)
-        physical_disk = {
-            'device': physical_disk_partition.device,
-            'mount_point': physical_disk_partition.mountpoint,
-            'type': physical_disk_partition.fstype,
-            'options': physical_disk_partition.opts,
-            'space_total': physical_disk_usage.total,
-            'space_used': physical_disk_usage.used,
-            'used_percent': physical_disk_usage.percent,
-            'space_free': physical_disk_usage.free
-        }
-        physical_disks_info.append(physical_disk)
-
-    disks_info = []
-    disk_partitions_all = psutil.disk_partitions(all=True)
-    for disk_partition in disk_partitions_all:
-        disk_usage = psutil.disk_usage(disk_partition.mountpoint)
-        disk = {
-            'device': disk_partition.device,
-            'mount_point': disk_partition.mountpoint,
-            'type': disk_partition.fstype,
-            'options': disk_partition.opts,
-            'space_total': disk_usage.total,
-            'space_used': disk_usage.used,
-            'used_percent': disk_usage.percent,
-            'space_free': disk_usage.free
-        }
-        disks_info.append(disk)
-
-    disks_io_info = psutil.disk_io_counters(perdisk=True)
-
-    return render_template('disks.html',
-                           physical_disks_info=physical_disks_info,
-                           disks_info=disks_info,
-                           disks_io_info=disks_io_info
-                           )
+    return render_template('memory/%s.html' % part, context=context, part=part)
 
 
-@main.route('/network')
-def network():
-    net_io_counts = psutil.net_io_counters(pernic=True)
-    interfaces_io = []
-    for interface in net_io_counts:
-        interface_dict = {}
-        addrs = netifaces.ifaddresses(interface)
-        ipv4_addr_info = addrs.get(2, None)
-        ipv4_addr = ''
-        if ipv4_addr_info:
-            ipv4_addr = ipv4_addr_info[0].get('addr', '')
-        ipv6_addr_info = addrs.get(10, None)
-        ipv6_addr = ''
-        if ipv6_addr_info:
-            ipv6_addr = ipv6_addr_info[0].get('addr', '')
-        interface_dict[interface] = [
-            addrs[17][0]['addr'],  # MAC address
-            ipv4_addr,
-            ipv6_addr,
-            net_io_counts[interface].bytes_sent,
-            net_io_counts[interface].bytes_recv,
-            net_io_counts[interface].packets_sent,
-            net_io_counts[interface].packets_recv,
-            net_io_counts[interface].errin,
-            net_io_counts[interface].errout,
-            net_io_counts[interface].dropin,
-            net_io_counts[interface].dropout
-        ]
-        interfaces_io.append(interface_dict)
+@main.route('/disks/', defaults={'part': 'disk'})
+@main.route('/disks/<string:part>')
+def disks(part):
+    if part == 'disk':
+        context = []
+        physical_disk_partitions = psutil.disk_partitions()
+        for physical_disk_partition in physical_disk_partitions:
+            physical_disk_usage = psutil.disk_usage(physical_disk_partition.mountpoint)
+            physical_disk = {
+                'device': physical_disk_partition.device,
+                'mount_point': physical_disk_partition.mountpoint,
+                'type': physical_disk_partition.fstype,
+                'options': physical_disk_partition.opts,
+                'space_total': physical_disk_usage.total,
+                'space_used': physical_disk_usage.used,
+                'used_percent': physical_disk_usage.percent,
+                'space_free': physical_disk_usage.free
+            }
+            context.append(physical_disk)
 
-    net_connections = psutil.net_connections(kind='all')
+    elif part == 'partition':
+        context = []
+        disk_partitions_all = psutil.disk_partitions(all=True)
+        for disk_partition in disk_partitions_all:
+            disk_usage = psutil.disk_usage(disk_partition.mountpoint)
+            disk = {
+                'device': disk_partition.device,
+                'mount_point': disk_partition.mountpoint,
+                'type': disk_partition.fstype,
+                'options': disk_partition.opts,
+                'space_total': disk_usage.total,
+                'space_used': disk_usage.used,
+                'used_percent': disk_usage.percent,
+                'space_free': disk_usage.free
+            }
+            context.append(disk)
 
-    return render_template('network.html', interfaces_io=interfaces_io, net_connections=net_connections)
+    elif part == 'io':
+        context = psutil.disk_io_counters(perdisk=True)
+
+    return render_template('disks/%s.html' % part, context=context, part=part)
+
+
+@main.route('/network/', defaults={'part': 'interfaces'})
+@main.route('/network/<string:part>')
+def network(part):
+    if part == 'interfaces':
+        net_io_counts = psutil.net_io_counters(pernic=True)
+        context = []
+        for interface in net_io_counts:
+            interface_dict = {}
+            addrs = netifaces.ifaddresses(interface)
+            ipv4_addr_info = addrs.get(2, None)
+            ipv4_addr = ''
+            if ipv4_addr_info:
+                ipv4_addr = ipv4_addr_info[0].get('addr', '')
+            ipv6_addr_info = addrs.get(10, None)
+            ipv6_addr = ''
+            if ipv6_addr_info:
+                ipv6_addr = ipv6_addr_info[0].get('addr', '')
+            interface_dict[interface] = [
+                addrs[17][0]['addr'],  # MAC address
+                ipv4_addr,
+                ipv6_addr,
+                net_io_counts[interface].bytes_sent,
+                net_io_counts[interface].bytes_recv,
+                net_io_counts[interface].packets_sent,
+                net_io_counts[interface].packets_recv,
+                net_io_counts[interface].errin,
+                net_io_counts[interface].errout,
+                net_io_counts[interface].dropin,
+                net_io_counts[interface].dropout
+            ]
+            context.append(interface_dict)
+    elif part == 'connections':
+        context = psutil.net_connections(kind='all')
+
+    return render_template('network/%s.html' % part, context=context, part=part)
 
 
 @main.route('/processes')
@@ -168,24 +173,31 @@ def all_process():
     return render_template('processes.html', processes=processes)
 
 
-@main.route('/process/<int:pid>')
-def process(pid):
+@main.route('/process/<int:pid>/', defaults={'part': 'process'})
+@main.route('/process/<int:pid>/<string:part>')
+def process(pid, part):
     the_process = psutil.Process(pid)
-    children = []
-    for p in the_process.children():
-        child = {
-            'pid': p.pid,
-            'name': p.name(),
-            'username': p.username(),
-            'status': p.status()
-        }
-        children.append(child)
-    parent_process = the_process.parent()
-    process_info = the_process.as_dict()
-    process_info['parent'] = parent_process.name() if parent_process else None
-    process_info['cpu_affinity'] = [str(n) for n in process_info['cpu_affinity']]
-    process_info['limits'] = get_rlimits(the_process)
-    if children:
+    process_info = {}
+    parts = ['process', 'memory', 'threads', 'files', 'connections', 'environ']
+    if part in parts:
+        parent_process = the_process.parent()
+        process_info = the_process.as_dict()
+        process_info['parent'] = parent_process.name() if parent_process else None
+        process_info['cpu_affinity'] = [str(n) for n in process_info['cpu_affinity']]
+    elif part == 'limits':
+        process_info['limits'] = get_rlimits(the_process)
+    elif part == 'children':
+        children = []
+        for p in the_process.children():
+            child = {
+                'pid': p.pid,
+                'name': p.name(),
+                'username': p.username(),
+                'status': p.status()
+            }
+            children.append(child)
         process_info['children'] = children
+    else:
+        return
 
-    return render_template('process.html', process_info=process_info)
+    return render_template('process/%s.html' % part, process_info=process_info, pid=pid, part=part)
