@@ -1,0 +1,27 @@
+{% extends 'disks.html' %}
+{% block disk_info %}
+    <div class="table-div" id="disk-io">
+        <table class="table table-bordered">
+            <tr>
+                <td>设备</td>
+                <td>IO 读</td>
+                <td>IO 写</td>
+                <td>读字节数</td>
+                <td>写字节数</td>
+                <td>读时间 ( ms )</td>
+                <td>写时间 ( ms )</td>
+            </tr>
+            {% for disk_info, disk_io_info in context.items() %}
+                <tr>
+                    <td>{{ disk_info }}</td>
+                    <td>{{ disk_io_info.read_count }}</td>
+                    <td>{{ disk_io_info.write_count }}</td>
+                    <td>{{ disk_io_info.read_bytes }}</td>
+                    <td>{{ disk_io_info.write_bytes }}</td>
+                    <td>{{ disk_io_info.read_time }}</td>
+                    <td>{{ disk_io_info.write_time }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

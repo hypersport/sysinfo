@@ -1,0 +1,27 @@
+{% extends 'disks.html' %}
+{% block disk_info %}
+    <div class="table-div" id="partition">
+        <table class="table table-bordered">
+            <tr>
+                <td>设备</td>
+                <td>挂载点</td>
+                <td>容量</td>
+                <td>已用</td>
+                <td>剩余</td>
+                <td>类型</td>
+                <td>选项</td>
+            </tr>
+            {% for disk_info in context %}
+                <tr>
+                    <td>{{ disk_info['device'] }}</td>
+                    <td>{{ disk_info['mount_point'] }}</td>
+                    <td>{{ disk_info['space_total']|format_size }}</td>
+                    <td>{{ disk_info['space_used']|format_size }} ( {{ disk_info['used_percent'] }} % )</td>
+                    <td>{{ disk_info['space_free']|format_size }}</td>
+                    <td>{{ disk_info['type'] }}</td>
+                    <td>{{ disk_info['options'] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
