@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Memory Info{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <div class="page-header">
+        <a {% if part == 'memory' %}id="display"{% endif %} href="{{ url_for('main.memory', part='memory') }}">内存信息</a>
+        <a {% if part == 'swap' %}id="display"{% endif %} href="{{ url_for('main.memory', part='swap') }}">SWAP信息</a>
+    </div>
+    <div>
+        {% block memory_swap %}{% endblock %}
+    </div>
+{% endblock %}

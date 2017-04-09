@@ -1,0 +1,39 @@
+{% extends 'memory-swap.html' %}
+{% block memory_swap %}
+    <div id="memory">
+        <table class="table table-bordered">
+            <tr>
+                <td>内存大小</td>
+                <td>{{ context.total|format_size }}</td>
+            </tr>
+            <tr>
+                <td>可用内存</td>
+                <td>{{ context.available|format_size }}</td>
+            </tr>
+            <tr>
+                <td>内存占用</td>
+                <td>{{ context.percent }} %</td>
+            </tr>
+            <tr>
+                <td>已用内存</td>
+                <td>{{ context.used|format_size }}</td>
+            </tr>
+            <tr>
+                <td>空闲内存</td>
+                <td>{{ context.free|format_size }}</td>
+            </tr>
+            <tr>
+                <td>buffers</td>
+                <td>{{ context.buffers|format_size }}</td>
+            </tr>
+            <tr>
+                <td>cached</td>
+                <td>{{ context.cached|format_size }}</td>
+            </tr>
+            <tr>
+                <td>共享内存</td>
+                <td>{{ context.shared|format_size }}</td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}

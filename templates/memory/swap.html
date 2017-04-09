@@ -1,0 +1,27 @@
+{% extends 'memory-swap.html' %}
+{% block memory_swap %}
+    <div id="swap">
+        <table class="table table-bordered">
+            <tr>
+                <td>大小</td>
+                <td>{{ context.total|format_size }}</td>
+            </tr>
+            <tr>
+                <td>已用</td>
+                <td>{{ context.used|format_size }} ( {{ context.percent }} % )</td>
+            </tr>
+            <tr>
+                <td>空闲</td>
+                <td>{{ context.free|format_size }}</td>
+            </tr>
+            <tr>
+                <td>IN</td>
+                <td>{{ context.sin|format_size }}</td>
+            </tr>
+            <tr>
+                <td>OUT</td>
+                <td>{{ context.sout|format_size }}</td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}
