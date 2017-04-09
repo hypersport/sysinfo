@@ -1,0 +1,33 @@
+{% extends 'network.html' %}
+{% block network %}
+    <div class="table-div" id="connections">
+        <table class="table table-bordered">
+            <tr>
+                <td>文件描述符</td>
+                <td>进程 ID</td>
+                <td>地址簇</td>
+                <td>类型</td>
+                <td>本地地址</td>
+                <td>远程地址</td>
+                <td>状态</td>
+            </tr>
+            {% for net_connection in context %}
+                <tr>
+                    <td>{{ net_connection.fd }}</td>
+                    <td>
+                        {% if net_connection.pid %}
+                            <a href="{{ url_for('main.process', pid=net_connection.pid) }}">
+                                {{ net_connection.pid }}
+                            </a>
+                        {% endif %}
+                    </td>
+                    <td>{{ net_connection.family|socket_family }}</td>
+                    <td>{{ net_connection.type|socket_type }}</td>
+                    <td>{{ net_connection.laddr|format_addr_port }}</td>
+                    <td>{{ net_connection.raddr|format_addr_port }}</td>
+                    <td>{{ net_connection.status }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

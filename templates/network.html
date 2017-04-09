@@ -4,76 +4,12 @@
     {{ super() }}
 {% endblock %}
 {% block content %}
-    <div class="page-header self-span-style">
-        <span id="network-span">网络信息</span>
-        <span class="latter-show" id="connections-span">网络链接</span>
+    <div class="page-header">
+        <a {% if part == 'interfaces' %}id="display"{% endif %} href="{{ url_for('main.network', part='interfaces') }}">网络信息</a>
+        <a {% if part == 'connections' %}id="display"{% endif %}
+           href="{{ url_for('main.network', part='connections') }}">网络链接</a>
     </div>
     <div>
-        <div id="network-info">
-            <table class="table table-bordered">
-                <tr>
-                    <td>接口</td>
-                    <td>MAC 地址</td>
-                    <td>Ipv4 地址</td>
-                    <td>Ipv6 地址</td>
-                    <td>发送 Bytes</td>
-                    <td>接收 Bytes</td>
-                    <td>发送包</td>
-                    <td>接收包</td>
-                    <td>Error In</td>
-                    <td>Error Out</td>
-                    <td>Drop In</td>
-                    <td>Drop Out</td>
-                </tr>
-                {% for interface_io_info in interfaces_io %}
-                    {% for interface, interface_io in interface_io_info.items() %}
-                        <tr>
-                            <td>{{ interface }}</td>
-                            <td>{{ interface_io[0] }}</td>
-                            <td>{{ interface_io[1] }}</td>
-                            <td>{{ interface_io[2] }}</td>
-                            <td>{{ interface_io[3] }}</td>
-                            <td>{{ interface_io[4] }}</td>
-                            <td>{{ interface_io[5] }}</td>
-                            <td>{{ interface_io[6] }}</td>
-                            <td>{{ interface_io[7] }}</td>
-                            <td>{{ interface_io[8] }}</td>
-                            <td>{{ interface_io[9] }}</td>
-                            <td>{{ interface_io[10] }}</td>
-                        </tr>
-                    {% endfor %}
-                {% endfor %}
-            </table>
-        </div>
-        <div id="connections-info" hidden>
-            <table class="table table-bordered">
-                <tr>
-                    <td>文件描述符</td>
-                    <td>进程 ID</td>
-                    <td>地址簇</td>
-                    <td>类型</td>
-                    <td>本地地址</td>
-                    <td>远程地址</td>
-                    <td>状态</td>
-                </tr>
-                {% for net_connection in net_connections %}
-                    <tr>
-                        <td>{{ net_connection.fd }}</td>
-                        <td>
-                            {% if net_connection.pid %}
-                                <a href="{{ url_for('main.process', pid=net_connection.pid) }}">
-                                    {{ net_connection.pid }}
-                                </a>
-                            {% endif %}
-                        </td>
-                        <td>{{ net_connection.family|socket_family }}</td>
-                        <td>{{ net_connection.type|socket_type }}</td>
-                        <td>{{ net_connection.laddr|format_addr_port }}</td>
-                        <td>{{ net_connection.raddr|format_addr_port }}</td>
-                        <td>{{ net_connection.status }}</td>
-                    </tr>
-                {% endfor %}
-            </table>
-        </div>
+        {% block network %}{% endblock %}
     </div>
 {% endblock %}

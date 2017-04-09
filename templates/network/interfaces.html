@@ -1,0 +1,39 @@
+{% extends 'network.html' %}
+{% block network %}
+    <div class="table-div" id="network">
+        <table class="table table-bordered">
+            <tr>
+                <td>接口</td>
+                <td>MAC 地址</td>
+                <td>Ipv4 地址</td>
+                <td>Ipv6 地址</td>
+                <td>发送 Bytes</td>
+                <td>接收 Bytes</td>
+                <td>发送包</td>
+                <td>接收包</td>
+                <td>Error In</td>
+                <td>Error Out</td>
+                <td>Drop In</td>
+                <td>Drop Out</td>
+            </tr>
+            {% for interface_io_info in context %}
+                {% for interface, interface_io in interface_io_info.items() %}
+                    <tr>
+                        <td>{{ interface }}</td>
+                        <td>{{ interface_io[0] }}</td>
+                        <td>{{ interface_io[1] }}</td>
+                        <td>{{ interface_io[2] }}</td>
+                        <td>{{ interface_io[3] }}</td>
+                        <td>{{ interface_io[4] }}</td>
+                        <td>{{ interface_io[5] }}</td>
+                        <td>{{ interface_io[6] }}</td>
+                        <td>{{ interface_io[7] }}</td>
+                        <td>{{ interface_io[8] }}</td>
+                        <td>{{ interface_io[9] }}</td>
+                        <td>{{ interface_io[10] }}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
