@@ -1,0 +1,24 @@
+{% extends 'process.html' %}
+{% block process %}
+    <div class="table-div" id="threads">
+        <table class="table table-bordered">
+            <tr>
+                <td>ID</td>
+                <td>用户时间</td>
+                <td>系统时间</td>
+            </tr>
+            {% for thread in process_info.get('threads', None) %}
+                <tr>
+                    <td>{% if thread.id %}
+                        <a href="{{ url_for('main.process', pid=thread.id) }}">
+                            {{ thread.id }}
+                        </a>
+                    {% endif %}
+                    </td>
+                    <td>{{ thread.user_time }}</td>
+                    <td>{{ thread.system_time }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

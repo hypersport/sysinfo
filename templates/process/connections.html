@@ -1,0 +1,25 @@
+{% extends 'process.html' %}
+{% block process %}
+    <div class="table-div" id="process-connections">
+        <table class="table table-bordered">
+            <tr>
+                <td>文件描述符</td>
+                <td>地址簇</td>
+                <td>类型</td>
+                <td>本地地址</td>
+                <td>远程地址</td>
+                <td>状态</td>
+            </tr>
+            {% for connection in process_info.get('connections', None) %}
+                <tr>
+                    <td>{{ connection.fd }}</td>
+                    <td>{{ connection.family|socket_family }}</td>
+                    <td>{{ connection.type|socket_type }}</td>
+                    <td>{{ connection.laddr|format_addr_port }}</td>
+                    <td>{{ connection.raddr|format_addr_port }}</td>
+                    <td>{{ connection.status }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

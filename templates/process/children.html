@@ -1,0 +1,27 @@
+{% extends 'process.html' %}
+{% block process %}
+    <div class="table-div" id="child-process">
+        <table class="table table-bordered">
+            <tr>
+                <td>进程号</td>
+                <td>进程</td>
+                <td>用户</td>
+                <td>状态</td>
+            </tr>
+            {% for child in process_info.get('children', None) %}
+                <tr>
+                    <td>
+                        {% if child.get('pid', None) %}
+                            <a href="{{ url_for('main.process', pid=child.get('pid')) }}">
+                                {{ child.get('pid') }}
+                            </a>
+                        {% endif %}
+                    </td>
+                    <td>{{ child.get('name', '') }}</td>
+                    <td>{{ child.get('username', '') }}</td>
+                    <td>{{ child.get('status', '') }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

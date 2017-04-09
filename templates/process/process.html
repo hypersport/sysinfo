@@ -1,0 +1,95 @@
+{% extends 'process.html' %}
+{% block process %}
+    <div id="process">
+        <table class="table table-bordered">
+            <tr>
+                <td>进程</td>
+                <td>{{ process_info.get('name', None) }}</td>
+            </tr>
+            <tr>
+                <td>进程号</td>
+                <td>{{ process_info.get('pid', None) }}</td>
+            </tr>
+            <tr>
+                <td>父进程</td>
+                <td>{{ process_info.get('parent', None) }}</td>
+            </tr>
+            <tr>
+                <td>父进程号</td>
+                <td>{{ process_info.get('ppid', None) }}</td>
+            </tr>
+            <tr>
+                <td>路径</td>
+                <td>{{ ' '.join(process_info.get('cmdline', None)) }}</td>
+            </tr>
+            <tr>
+                <td>用户</td>
+                <td>{{ process_info.get('username', None) }}</td>
+            </tr>
+            <tr>
+                <td>用户 ID</td>
+                <td>{{ process_info.get('uids', None) }}</td>
+            </tr>
+            <tr>
+                <td>组 ID</td>
+                <td>{{ process_info.get('gids', None) }}</td>
+            </tr>
+            <tr>
+                <td>创建时间</td>
+                <td>{{ process_info.get('create_time', None)|format_time }}</td>
+            </tr>
+            <tr>
+                <td>内存</td>
+                <td>{{ process_info.get('memory_percent', None) }}</td>
+            </tr>
+            <tr>
+                <td>内存</td>
+                <td>{{ process_info.get('memory_info', None) }}</td>
+            </tr>
+            <tr>
+                <td>终端</td>
+                <td>{{ process_info.get('terminal', None) }}</td>
+            </tr>
+            <tr>
+                <td>状态</td>
+                <td>{{ process_info.get('status', None) }}</td>
+            </tr>
+            <tr>
+                <td>Nice 值</td>
+                <td>{{ process_info.get('nice', None) }}</td>
+            </tr>
+            <tr>
+                <td>目录</td>
+                <td>{{ process_info.get('cwd', None) }}</td>
+            </tr>
+            <tr>
+                <td>I/O</td>
+                <td>{{ process_info.get('io_counters', None) }}</td>
+            </tr>
+            <tr>
+                <td>I/O Nice 值</td>
+                <td>{{ process_info.get('ionice', None) }}</td>
+            </tr>
+            <tr>
+                <td>文件描述符</td>
+                <td>{{ process_info.get('num_fds', None) }}</td>
+            </tr>
+            <tr>
+                <td>上下文切换</td>
+                <td>{{ process_info.get('num_ctx_switches', None) }}</td>
+            </tr>
+            <tr>
+                <td>CPU</td>
+                <td>{{ process_info.get('cpu_percent', None) }}</td>
+            </tr>
+            <tr>
+                <td>CPU 时间</td>
+                <td>{{ process_info.get('cpu_times', None) }}</td>
+            </tr>
+            <tr>
+                <td>CPU 亲和性</td>
+                <td>{{ ' '.join(process_info.get('cpu_affinity', None)) }}</td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}

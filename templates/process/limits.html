@@ -1,0 +1,19 @@
+{% extends 'process.html' %}
+{% block process %}
+    <div class="table-div" id="resource-limits">
+        <table class="table table-bordered">
+            <tr>
+                <td>资源</td>
+                <td>软限制</td>
+                <td>硬限制</td>
+            </tr>
+            {% for resource, limits in process_info.get('limits', None).items() %}
+                <tr>
+                    <td>{{ resource }}</td>
+                    <td>{{ limits[0] }}</td>
+                    <td>{{ limits[1] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

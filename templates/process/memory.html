@@ -1,0 +1,35 @@
+{% extends 'process.html' %}
+{% block process %}
+    <div class="table-div" id="memory">
+        <table class="table table-bordered">
+            <tr>
+                <td>路径</td>
+                <td>RSS</td>
+                <td>SIZE</td>
+                <td>PSS</td>
+                <td>Shared Dirty</td>
+                <td>Shared Clean</td>
+                <td>Private Dirty</td>
+                <td>Private Clean</td>
+                <td>Referenced</td>
+                <td>Anonymous</td>
+                <td>Swap</td>
+            </tr>
+            {% for memory_map in process_info.get('memory_maps', None) %}
+                <tr>
+                    <td>{{ memory_map.path }}</td>
+                    <td>{{ memory_map.rss }}</td>
+                    <td>{{ memory_map.size }}</td>
+                    <td>{{ memory_map.pss }}</td>
+                    <td>{{ memory_map.shared_dirty }}</td>
+                    <td>{{ memory_map.shared_clean }}</td>
+                    <td>{{ memory_map.private_dirty }}</td>
+                    <td>{{ memory_map.private_clean }}</td>
+                    <td>{{ memory_map.referenced }}</td>
+                    <td>{{ memory_map.anonymous }}</td>
+                    <td>{{ memory_map.swap }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

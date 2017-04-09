@@ -1,0 +1,19 @@
+{% extends 'process.html' %}
+{% block process %}
+    <div class="table-div" id="opened-files">
+        <table class="table table-bordered">
+            <tr>
+                <td>路径</td>
+                <td>文件描述符</td>
+                <td>模式</td>
+            </tr>
+            {% for file in process_info.get('open_files', None) %}
+                <tr>
+                    <td>{{ file.path }}</td>
+                    <td>{{ file.fd }}</td>
+                    <td>{{ file.mode }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
