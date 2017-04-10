@@ -8,6 +8,11 @@ import datetime
 import netifaces
 
 
+@main.app_errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+
 @main.route('/')
 def index():
     info = os.uname()
@@ -69,6 +74,8 @@ def memory(part):
         context = psutil.virtual_memory()
     elif part == 'swap':
         context = psutil.swap_memory()
+    else:
+        return render_template('404.html'), 404
 
     return render_template('memory/%s.html' % part, context=context, part=part)
 
@@ -112,6 +119,8 @@ def disks(part):
 
     elif part == 'io':
         context = psutil.disk_io_counters(perdisk=True)
+    else:
+        return render_template('404.html'), 404
 
     return render_template('disks/%s.html' % part, context=context, part=part)
 
@@ -149,6 +158,8 @@ def network(part):
             context.append(interface_dict)
     elif part == 'connections':
         context = psutil.net_connections(kind='all')
+    else:
+        return render_template('404.html'), 404
 
     return render_template('network/%s.html' % part, context=context, part=part)
 
@@ -198,6 +209,6 @@ def process(pid, part):
             children.append(child)
         process_info['children'] = children
     else:
-        return
+        return render_template('404.html'), 404
 
     return render_template('process/%s.html' % part, process_info=process_info, pid=pid, part=part)
