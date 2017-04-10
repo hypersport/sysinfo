@@ -2,9 +2,9 @@ $(document).ready(function () {
     setInterval(refresh, 3000);
 });
 // auto refresh page
-var autoRefresh = false;
+var notRefresh = false;
 function refresh() {
-    if (autoRefresh) {
+    if (notRefresh) {
         return;
     }
     $.ajax({
