@@ -169,16 +169,18 @@ def network(part):
     return render_template('network/%s.html' % part, context=context, part=part)
 
 
-@main.route('/processes')
-def all_process():
+@main.route('/processes', defaults={'sort': 'cpu', 'order': 'desc'})
+@main.route('/processes/<string:sort>')
+@main.route('/processes/<string:sort>/<string:order>')
+def all_process(sort='cpu', order='asc'):
     processes = []
     for p in psutil.process_iter():
         process_info = {
             'name': p.name(),
             'pid': p.pid,
             'username': p.username(),
-            'cpu_percent': p.cpu_percent(),
-            'memory_percent': p.memory_percent(),
+            'cpu': p.cpu_percent(),
+            'memory': p.memory_percent(),
             'memory_rss': p.memory_info().rss,
             'memory_vms': p.memory_info().vms,
             'status': p.status(),
@@ -186,7 +188,8 @@ def all_process():
             'cmdline': ' '.join(p.cmdline())
         }
         processes.append(process_info)
-    return render_template('processes.html', processes=processes)
+        processes.sort(key=lambda proc: proc.get(sort), reverse=True if order == 'desc' else False)
+    return render_template('processes.html', processes=processes, sort=sort, order=order)
 
 
 @main.route('/process/<int:pid>/', defaults={'part': 'process'})

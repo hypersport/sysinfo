@@ -2,28 +2,41 @@
 {% block title %}Processes{% endblock %}
 {% block head %}
     {{ super() }}
-    <style type="text/css">
-        table tr:nth-child(1) {
-            background: #c0a16b;
-        }
-    </style>
 {% endblock %}
 {% block content %}
+    {% set next_order = 'desc' if order == 'asc' else 'asc' %}
+    {% set arrow = '<b class="arrow-style">&uarr;</b>' if order == 'asc' else '<b class="arrow-style">&darr;</b>' %}
     <div class="page-header">
         <h1>进程信息</h1>
     </div>
-    <div>
+    <div class="table-div">
         <table class="table table-bordered">
             <tr>
-                <td>进程</td>
-                <td>进程号</td>
-                <td>用户</td>
-                <td>状态</td>
-                <td>CPU</td>
-                <td>内存</td>
-                <td>内存 RSS</td>
-                <td>内存 VMS</td>
-                <td>创建时间</td>
+                <td>
+                    <a href="{{ url_for('main.all_process', sort='name', order=next_order) }}">进程</a>{{ arrow|safe if sort == 'name' }}
+                </td>
+                <td>
+                    <a href="{{ url_for('main.all_process', sort='pid', order=next_order) }}">进程号</a>{{ arrow|safe if sort == 'pid' }}
+                </td>
+                <td>
+                    <a href="{{ url_for('main.all_process', sort='username', order=next_order) }}">用户</a>{{ arrow|safe if sort == 'username' }}
+                </td>
+                <td>
+                    <a href="{{ url_for('main.all_process', sort='status', order=next_order) }}">状态</a>{{ arrow|safe if sort == 'status' }}
+                </td>
+                <td>
+                    <a href="{{ url_for('main.all_process', sort='cpu', order=next_order) }}">CPU</a>{{ arrow|safe if sort == 'cpu' }}
+                </td>
+                <td>
+                    <a href="{{ url_for('main.all_process', sort='memory', order=next_order) }}">内存</a>{{ arrow|safe if sort == 'memory' }}
+                </td>
+                <td><a href="{{ url_for('main.all_process', sort='memory_rss', order=next_order) }}">内存
+                    RSS</a>{{ arrow|safe if sort == 'memory_rss' }}</td>
+                <td><a href="{{ url_for('main.all_process', sort='memory_vms', order=next_order) }}">内存
+                    VMS</a>{{ arrow|safe if sort == 'memory_vms' }}</td>
+                <td>
+                    <a href="{{ url_for('main.all_process', sort='created_time', order=next_order) }}">创建时间</a>{{ arrow|safe if sort == 'created_time' }}
+                </td>
                 <td>路径</td>
             </tr>
             {% for process in processes %}
@@ -38,8 +51,8 @@
                 </td>
                 <td>{{ process['username'] }}</td>
                 <td>{{ process['status'] }}</td>
-                <td>{{ process['cpu_percent']|round(2) }} %</td>
-                <td>{{ process['memory_percent']|round(2) }} %</td>
+                <td>{{ process['cpu']|round(2) }} %</td>
+                <td>{{ process['memory']|round(2) }} %</td>
                 <td>{{ process['memory_rss']|format_size }}</td>
                 <td>{{ process['memory_vms']|format_size }}</td>
                 <td>{{ process['created_time']|format_time }}</td>

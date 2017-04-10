@@ -6,6 +6,10 @@ table tr:nth-child(odd) {
     background: #c0a16b;
 }
 
+.table-div table tr:first-child a {
+    color: #333333;
+}
+
 #display {
     color: #000000;
 }
@@ -15,4 +19,8 @@ table tr:nth-child(odd) {
     font-size: 36px;
     cursor: pointer;
     margin: 5px;
+}
+
+.arrow-style {
+    color: #ffffff;
 }
