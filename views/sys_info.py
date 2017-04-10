@@ -8,6 +8,11 @@ import datetime
 import netifaces
 
 
+@main.errorhandler(psutil.NoSuchProcess)
+def no_such_process(e):
+    return render_template('404.html'), 404
+
+
 @main.app_errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
