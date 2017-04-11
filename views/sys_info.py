@@ -163,6 +163,7 @@ def network(part):
             context.append(interface_dict)
     elif part == 'connections':
         context = psutil.net_connections(kind='all')
+        context.sort(key=lambda connect: connect.status if connect.status != 'NONE' else 'z')
     else:
         return render_template('404.html'), 404
 
