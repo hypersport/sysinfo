@@ -85,11 +85,11 @@ def memory(part):
     return render_template('memory/%s.html' % part, context=context, part=part)
 
 
-@main.route('/disks/', defaults={'part': 'disk', 'sort': 'space_used', 'order': 'desc'})
+@main.route('/disks/', defaults={'part': 'disk', 'sort': 'space_free', 'order': 'desc'})
 @main.route('/disks/<string:part>')
 @main.route('/disks/<string:part>/<string:sort>')
 @main.route('/disks/<string:part>/<string:sort>/<string:order>')
-def disks(part='disk', sort='space_used', order='desc'):
+def disks(part='disk', sort='space_free', order='desc'):
     if part == 'disk':
         context = []
         physical_disk_partitions = psutil.disk_partitions()
