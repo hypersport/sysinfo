@@ -85,9 +85,11 @@ def memory(part):
     return render_template('memory/%s.html' % part, context=context, part=part)
 
 
-@main.route('/disks/', defaults={'part': 'disk'})
+@main.route('/disks/', defaults={'part': 'disk', 'sort': 'space_used', 'order': 'desc'})
 @main.route('/disks/<string:part>')
-def disks(part):
+@main.route('/disks/<string:part>/<string:sort>')
+@main.route('/disks/<string:part>/<string:sort>/<string:order>')
+def disks(part='disk', sort='space_used', order='desc'):
     if part == 'disk':
         context = []
         physical_disk_partitions = psutil.disk_partitions()
@@ -121,13 +123,14 @@ def disks(part):
                 'space_free': disk_usage.free
             }
             context.append(disk)
+        context.sort(key=lambda partition: partition.get(sort), reverse=True if order == 'desc' else False)
 
     elif part == 'io':
         context = psutil.disk_io_counters(perdisk=True)
     else:
         return render_template('404.html'), 404
 
-    return render_template('disks/%s.html' % part, context=context, part=part)
+    return render_template('disks/%s.html' % part, context=context, part=part, sort=sort, order=order)
 
 
 @main.route('/network/', defaults={'part': 'interfaces'})

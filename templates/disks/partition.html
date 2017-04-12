@@ -1,13 +1,21 @@
 {% extends 'disks.html' %}
 {% block disk_info %}
+    {% set next_order = 'desc' if order == 'asc' else 'asc' %}
+    {% set arrow = '<b class="arrow-style">&uarr;</b>' if order == 'asc' else '<b class="arrow-style">&darr;</b>' %}
     <div class="table-div" id="partition">
         <table class="table table-bordered">
             <tr>
                 <td>设备</td>
                 <td>挂载点</td>
-                <td>容量</td>
-                <td>已用</td>
-                <td>剩余</td>
+                <td>
+                    <a href="{{ url_for('main.disks', part='partition', sort='space_total', order=next_order) }}">容量</a>{{ arrow|safe if sort == 'space_total' }}
+                </td>
+                <td>
+                    <a href="{{ url_for('main.disks', part='partition', sort='space_used', order=next_order) }}">已用</a>{{ arrow|safe if sort == 'space_used' }}
+                </td>
+                <td>
+                    <a href="{{ url_for('main.disks', part='partition', sort='space_free', order=next_order) }}">剩余</a>{{ arrow|safe if sort == 'space_free' }}
+                </td>
                 <td>类型</td>
                 <td>选项</td>
             </tr>
