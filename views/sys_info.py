@@ -149,7 +149,7 @@ def network(part):
             ipv6_addr_info = addrs.get(10, None)
             ipv6_addr = ''
             if ipv6_addr_info:
-                ipv6_addr = ipv6_addr_info[0].get('addr', '')
+                ipv6_addr = ipv6_addr_info[0].get('addr', '').split('%')[0]
             interface_dict[interface] = [
                 addrs[17][0]['addr'],  # MAC address
                 ipv4_addr,
