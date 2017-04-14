@@ -5,10 +5,10 @@
 {% endblock %}
 {% block content %}
     <div class="page-header">
-        <a {% if part == 'disk' %}id="display"{% endif %} href="{{ url_for('main.disks', part='disk') }}">磁盘信息</a>
+        <a {% if part == 'disk' %}id="display"{% endif %} href="{{ url_for('main.disks', part='disk') }}">硬盘信息</a>
         <a {% if part == 'partition' %}id="display"{% endif %}
            href="{{ url_for('main.disks', part='partition') }}">分区信息</a>
-        <a {% if part == 'io' %}id="display"{% endif %} href="{{ url_for('main.disks', part='io') }}">磁盘IO</a>
+        <a {% if part == 'io' %}id="display"{% endif %} href="{{ url_for('main.disks', part='io') }}">IO信息</a>
     </div>
     <div>
         {% block disk_info %}{% endblock %}
