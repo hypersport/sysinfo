@@ -60,7 +60,10 @@ def cpu_info():
     else_percent = 0.0
     for i in range(5, 10):
         else_percent += cpu_time_percent[i]
-    cpu_freq = psutil.cpu_freq()
+    try:
+        cpu_freq = psutil.cpu_freq()
+    except AttributeError:
+        cpu_freq = None
 
     return render_template('cpu.html',
                            physical_core_num=physical_core_num,
