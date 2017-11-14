@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    refresh;
     setInterval(refresh, 3000);
 });
 // auto refresh page
