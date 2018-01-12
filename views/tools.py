@@ -1,5 +1,6 @@
 import socket
 import psutil
+from flask import Response, jsonify
 
 
 def socket_prefix(prefix):
@@ -29,3 +30,11 @@ def get_rlimits(process):
         'RLIMIT_SIGPENDING': process.rlimit(psutil.RLIMIT_SIGPENDING),
         'RLIMIT_STACK': process.rlimit(psutil.RLIMIT_STACK)
     }
+
+
+class CustomResponse(Response):
+    @classmethod
+    def force_type(cls, response, environ=None):
+        if isinstance(response, (list, dict)):
+            response = jsonify(response)
+        return super(Response, cls).force_type(response, environ)
