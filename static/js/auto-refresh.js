@@ -3,7 +3,7 @@ $(document).ready(function () {
     setInterval(refresh, 3000);
 });
 // auto refresh page
-var notRefresh = true;
+var notRefresh = false;
 function refresh() {
     if (notRefresh) {
         return;
