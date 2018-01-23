@@ -1,0 +1,75 @@
+{% extends 'cpu.html' %}
+{% block head %}
+    {{ super() }}
+    <script src="{{ url_for("static", filename="js/auto-refresh.js") }}"></script>
+{% endblock %}
+{% block cpu_info %}
+    <div id="cpu_info">
+        <table class="table table-bordered">
+            <tr>
+                <td>物理 CPU 核心数</td>
+                <td>{{ physical_core_num }}</td>
+            </tr>
+            <tr>
+                <td>逻辑 CPU 核心数</td>
+                <td>{{ logical_core_num }}</td>
+            </tr>
+            <tr>
+                <td>最近 1 分钟平均负载</td>
+                <td>{{ load_avg[0] }}</td>
+            </tr>
+            <tr>
+                <td>最近 5 分钟平均负载</td>
+                <td>{{ load_avg[1] }}</td>
+            </tr>
+            <tr>
+                <td>最近 15 分钟平均负载</td>
+                <td>{{ load_avg[2] }}</td>
+            </tr>
+            <tr>
+                <td>用户</td>
+                <td>{{ cpu_time_percent.user }} %</td>
+            </tr>
+            <tr>
+                <td>系统</td>
+                <td>{{ cpu_time_percent.system }} %</td>
+            </tr>
+            <tr>
+                <td>空闲</td>
+                <td>{{ cpu_time_percent.idle }} %</td>
+            </tr>
+            {% if cpu_time_percent.nice %}
+                <tr>
+                    <td>nice</td>
+                    <td>{{ cpu_time_percent.nice }} %</td>
+                </tr>
+            {% endif %}
+            {% if cpu_time_percent.iowait %}
+                <tr>
+                    <td>iowait</td>
+                    <td>{{ cpu_time_percent.iowait }} %</td>
+                </tr>
+            {% endif %}
+            {% if else_percent %}
+                <tr>
+                    <td>其他</td>
+                    <td>{{ else_percent }} %</td>
+                </tr>
+            {% endif %}
+            {% if cpu_freq %}
+                <tr>
+                    <td>正在运行频率</td>
+                    <td>{{ (cpu_freq.current/1000)|round(2) }} GHz</td>
+                </tr>
+                <tr>
+                    <td>最低运行频率</td>
+                    <td>{{ (cpu_freq.min/1000)|round(2) }} GHz</td>
+                </tr>
+                <tr>
+                    <td>最高运行频率</td>
+                    <td>{{ (cpu_freq.max/1000)|round(2) }} GHz</td>
+                </tr>
+            {% endif %}
+        </table>
+    </div>
+{% endblock %}
