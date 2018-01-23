@@ -51,8 +51,11 @@ def all_user():
     return render_template('users.html', users=users)
 
 
-@main.route('/cpu')
-def cpu_info():
+@main.route('/cpu', defaults={'chart': None})
+@main.route('/cpu/<string:chart>')
+def cpu_info(chart):
+    if chart in ['line', 'pie']:
+        return render_template('cpu/cpu-%s.html' % chart, chart=chart)
     logical_core_num = psutil.cpu_count()
     physical_core_num = psutil.cpu_count(logical=False)
     load_avg = os.getloadavg()
@@ -65,13 +68,13 @@ def cpu_info():
     except AttributeError:
         cpu_freq = None
 
-    return render_template('cpu.html',
+    return render_template('cpu/cpu_info.html',
                            physical_core_num=physical_core_num,
                            logical_core_num=logical_core_num,
                            load_avg=load_avg,
                            cpu_time_percent=cpu_time_percent,
                            else_percent=else_percent,
-                           cpu_freq=cpu_freq
+                           cpu_freq=cpu_freq,
                            )
 
 
@@ -227,3 +230,21 @@ def process(pid, part):
         return render_template('404.html'), 404
 
     return render_template('process/%s.html' % part, process_info=process_info, pid=pid, part=part)
+
+
+@main.route('/api', defaults={'part': 'cpu', 'shape': 'line'})
+@main.route('/api/<string:part>/')
+@main.route('/api/<string:part>/<string:shape>')
+def api(part='cpu', shape='line'):
+    if part == 'cpu':
+        used_cpu = {}
+        cpu_time_percent = psutil.cpu_times_percent()
+        if shape == 'line':
+            used_cpu = {'used_cpu_precent': cpu_time_percent.user + cpu_time_percent.system}
+        elif shape == 'pie':
+            used_cpu = {
+                'used_by_user': cpu_time_percent.user,
+                'used_by_system': cpu_time_percent.system,
+                'free': cpu_time_percent.idle
+            }
+        return used_cpu
