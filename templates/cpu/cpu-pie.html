@@ -10,8 +10,7 @@
     <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
 
     <script type="text/javascript">
-        var used_data = getInfoData('cpu', 'pie');
-        {#console.log(used_data);#}
+        var cpuInfo = getInfoData('cpu', 'pie');
         Highcharts.chart('container', {
             chart: {
                 plotBackgroundColor: null,
@@ -43,15 +42,15 @@
                 colorByPoint: true,
                 data: [{
                     name: '用户占用',
-                    y: used_data.used_by_user
+                    y: cpuInfo.used_by_user
                 }, {
                     name: '系统占用',
-                    y: used_data.used_by_system,
+                    y: cpuInfo.used_by_system,
                     sliced: true,
                     selected: true
                 }, {
                     name: '空闲',
-                    y: used_data.free
+                    y: cpuInfo.free
                 }]
             }]
         });

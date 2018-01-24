@@ -10,9 +10,9 @@
     <div id="container" style="min-width: 310px; height: 400px; max-width: 900px; margin: 0 auto"></div>
     <script type="text/javascript">
         function getUsedMemPercent() {
-            var used_memory = 0;
-            used_memory = getInfoData('memory', 'line');
-            return used_memory.used_mem_percent;
+            var usedMemPercent = 0;
+            usedMemPercent = getInfoData('memory', 'line');
+            return usedMemPercent.used_mem_percent;
         }
 
         Highcharts.setOptions({
