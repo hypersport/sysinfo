@@ -2,7 +2,8 @@
 <html {% block html_attribs %}{% endblock html_attribs %}>
 <head>
     {%- block head %}
-        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}{{ title|default }}{% endblock title %}</title>
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
         <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
