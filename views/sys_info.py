@@ -78,12 +78,15 @@ def cpu_info(chart):
                            )
 
 
-@main.route('/memory/', defaults={'part': 'memory'})
+@main.route('/memory/', defaults={'part': 'memory', 'chart': None})
 @main.route('/memory/<string:part>')
-def memory(part):
+@main.route('/memory/<string:part>/<string:chart>')
+def memory(part, chart=None):
     if part == 'memory':
+        if chart in ['line', 'pie']:
+            return render_template('memory/memory-%s.html' % chart, part=part, chart=chart)
         context = psutil.virtual_memory()
-    elif part == 'swap':
+    elif not chart and part == 'swap':
         context = psutil.swap_memory()
     else:
         return render_template('404.html'), 404
@@ -232,19 +235,28 @@ def process(pid, part):
     return render_template('process/%s.html' % part, process_info=process_info, pid=pid, part=part)
 
 
-@main.route('/api', defaults={'part': 'cpu', 'shape': 'line'})
+@main.route('/api', defaults={'part': 'cpu', 'chart': 'line'})
 @main.route('/api/<string:part>/')
-@main.route('/api/<string:part>/<string:shape>')
-def api(part='cpu', shape='line'):
+@main.route('/api/<string:part>/<string:chart>')
+def api(part='cpu', chart='line'):
     if part == 'cpu':
-        used_cpu = {}
+        cpu_info = {}
         cpu_time_percent = psutil.cpu_times_percent()
-        if shape == 'line':
-            used_cpu = {'used_cpu_precent': cpu_time_percent.user + cpu_time_percent.system}
-        elif shape == 'pie':
-            used_cpu = {
+        if chart == 'line':
+            cpu_info = {'used_cpu_percent': cpu_time_percent.user + cpu_time_percent.system}
+        elif chart == 'pie':
+            cpu_info = {
                 'used_by_user': cpu_time_percent.user,
                 'used_by_system': cpu_time_percent.system,
                 'free': cpu_time_percent.idle
             }
-        return used_cpu
+        return cpu_info
+
+    elif part == 'memory':
+        memory_info = {}
+        context = psutil.virtual_memory()
+        if chart == 'line':
+            memory_info = {'used_mem_percent': context.percent}
+        elif chart == 'pie':
+            memory_info = {}
+        return memory_info

@@ -1,9 +1,9 @@
-function getInfoData(part, shape) {
+function getInfoData(part, chart) {
     var infoData = 0;
     var part = part || 'cpu';
-    var shape = shape || 'line';
+    var chart = chart || 'line';
     $.ajax({
-        url: "http://127.0.0.1:9468/api/" + part + "/" + shape,
+        url: "http://127.0.0.1:9468/api/" + part + "/" + chart,
         cache: false,
         async: false,
         dataType: "json",
