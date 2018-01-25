@@ -1,0 +1,99 @@
+{% extends 'memory-swap.html' %}
+{% block head %}
+    {{ super() }}
+    {#<script src="https://code.highcharts.com/highcharts.src.js"></script>#}
+    <script src="{{ url_for("static", filename="js/highcharts.src.js") }}"></script>
+    <script src="{{ url_for("static", filename="js/exporting.js") }}"></script>
+    <script src="{{ url_for("static", filename="js/highcharts-more.js") }}"></script>
+    <script src="{{ url_for("static", filename="js/get-info.js") }}"></script>
+    <style type="text/css">
+        #container {
+            min-width: 320px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        #buttons-position {
+            margin: 10px;
+            position: absolute;
+            left: 61.8%;
+        }
+    </style>
+{% endblock %}
+{% block memory_swap %}
+    <div id="container"></div>
+    <div id="buttons-position">
+        <button id="plain">柱形图</button>
+        <button id="inverted">条形图</button>
+        <button id="polar">极地图</button>
+    </div>
+    <script type="text/javascript">
+        var memoryInfo = getInfoData('memory', 'column');
+
+        var chart = Highcharts.chart('container', {
+
+            title: {
+                text: '内存信息'
+            },
+
+            subtitle: {
+                text: '柱形图'
+            },
+
+            xAxis: {
+                categories: ['内存大小', '可用内存', '已用内存', '空闲内存', 'buffers', 'cached', '共享内存']
+            },
+            yAxis: {
+                title: {
+                    text: '大小 (M)'
+                }
+            },
+            series: [{
+                type: 'column',
+                name: '大小 (M)',
+                colorByPoint: true,
+                data: [memoryInfo.total, memoryInfo.available, memoryInfo.used, memoryInfo.free, memoryInfo.buffers, memoryInfo.cached, memoryInfo.shared],
+                showInLegend: false
+            }]
+
+        });
+
+
+        $('#plain').click(function () {
+            chart.update({
+                chart: {
+                    inverted: false,
+                    polar: false
+                },
+                subtitle: {
+                    text: '柱形图'
+                }
+            });
+        });
+
+        $('#inverted').click(function () {
+            chart.update({
+                chart: {
+                    inverted: true,
+                    polar: false
+                },
+                subtitle: {
+                    text: '条形图'
+                }
+            });
+        });
+
+        $('#polar').click(function () {
+            chart.update({
+                chart: {
+                    inverted: false,
+                    polar: true
+                },
+                subtitle: {
+                    text: '极地图'
+                }
+            });
+        });
+
+    </script>
+{% endblock %}

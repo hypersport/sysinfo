@@ -8,7 +8,7 @@
         <a {% if not chart and part == 'memory' %}id="display"{% endif %} href="{{ url_for('main.memory', part='memory', chart=None) }}">内存信息</a>
         <a {% if part == 'swap' %}id="display"{% endif %} href="{{ url_for('main.memory', part='swap', chart=None) }}">SWAP信息</a>
         <a {% if chart == 'line' %}id="display"{% endif %} href="{{ url_for('main.memory', part='memory', chart='line') }}">内存折线图</a>
-        <a {% if chart == 'pie' %}id="display"{% endif %} href="{{ url_for('main.memory', part='memory', chart='pie') }}">内存饼图</a>
+        <a {% if chart == 'column' %}id="display"{% endif %} href="{{ url_for('main.memory', part='memory', chart='column') }}">内存条形图</a>
     </div>
     <div>
         {% block memory_swap %}{% endblock %}

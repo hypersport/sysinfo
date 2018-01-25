@@ -83,7 +83,7 @@ def cpu_info(chart):
 @main.route('/memory/<string:part>/<string:chart>')
 def memory(part, chart=None):
     if part == 'memory':
-        if chart in ['line', 'pie']:
+        if chart in ['line', 'column']:
             return render_template('memory/memory-%s.html' % chart, part=part, chart=chart)
         context = psutil.virtual_memory()
     elif not chart and part == 'swap':
@@ -257,6 +257,15 @@ def api(part='cpu', chart='line'):
         context = psutil.virtual_memory()
         if chart == 'line':
             memory_info = {'used_mem_percent': context.percent}
-        elif chart == 'pie':
-            memory_info = {}
+        elif chart == 'column':
+            memory_info = {
+                # all the data convert to the unit of M
+                'total': round(context.total/1048576.0, 2),
+                'available': round(context.available/1048576.0, 2),
+                'used': round(context.used / 1048576.0, 2),
+                'free': round(context.free / 1048576.0, 2),
+                'buffers': round(context.buffers / 1048576.0, 2),
+                'cached': round(context.cached / 1048576.0, 2),
+                'shared': round(context.shared / 1048576.0, 2),
+            }
         return memory_info
