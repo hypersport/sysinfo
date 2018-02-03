@@ -2,6 +2,7 @@
 {% block title %}Processes{% endblock %}
 {% block head %}
     {{ super() }}
+    <script src="{{ url_for("static", filename="js/auto-refresh.js") }}"></script>
 {% endblock %}
 {% block content %}
     {% set next_order = 'desc' if order == 'asc' else 'asc' %}

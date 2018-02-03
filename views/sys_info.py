@@ -238,7 +238,7 @@ def process(pid, part):
 @main.route('/api', defaults={'part': 'cpu', 'chart': 'line'})
 @main.route('/api/<string:part>/')
 @main.route('/api/<string:part>/<string:chart>')
-def api(part='cpu', chart='line'):
+def api(part, chart):
     if part == 'cpu':
         cpu_info = {}
         cpu_time_percent = psutil.cpu_times_percent()
@@ -260,8 +260,8 @@ def api(part='cpu', chart='line'):
         elif chart == 'column':
             memory_info = {
                 # all the data convert to the unit of M
-                'total': round(context.total/1048576.0, 2),
-                'available': round(context.available/1048576.0, 2),
+                'total': round(context.total / 1048576.0, 2),
+                'available': round(context.available / 1048576.0, 2),
                 'used': round(context.used / 1048576.0, 2),
                 'free': round(context.free / 1048576.0, 2),
                 'buffers': round(context.buffers / 1048576.0, 2),

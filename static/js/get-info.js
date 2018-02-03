@@ -3,7 +3,7 @@ function getInfoData(part, chart) {
     var part = part || 'cpu';
     var chart = chart || 'line';
     $.ajax({
-        url: "http://127.0.0.1:9468/api/" + part + "/" + chart,
+        url: "http://localhost:9468/api/" + part + "/" + chart,
         cache: false,
         async: false,
         dataType: "json",
