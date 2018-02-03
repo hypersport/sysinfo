@@ -11,6 +11,27 @@
 
     <script type="text/javascript">
         var cpuInfo = getInfoData('cpu', 'pie');
+        cpuData = [{
+                    name: '用户占用',
+                    y: cpuInfo.used_by_user
+                }, {
+                    name: '系统占用',
+                    y: cpuInfo.used_by_system
+                }];
+        if (cpuInfo.free > 0) {
+            cpuData.push({
+                        name: '空闲',
+                        y: cpuInfo.free,
+                        sliced: true,
+                        selected: true
+                    })
+        }
+        if (cpuInfo.else_percent > 0) {
+            cpuData.push({
+                        name: '其他',
+                        y: cpuInfo.else_percent
+                    })
+        }
         Highcharts.chart('container', {
             chart: {
                 plotBackgroundColor: null,
@@ -40,18 +61,7 @@
             series: [{
                 name: '比例',
                 colorByPoint: true,
-                data: [{
-                    name: '用户占用',
-                    y: cpuInfo.used_by_user
-                }, {
-                    name: '系统占用',
-                    y: cpuInfo.used_by_system,
-                    sliced: true,
-                    selected: true
-                }, {
-                    name: '空闲',
-                    y: cpuInfo.free
-                }]
+                data: cpuData
             }]
         });
     </script>

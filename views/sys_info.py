@@ -245,10 +245,14 @@ def api(part, chart):
         if chart == 'line':
             cpu_info = {'used_cpu_percent': cpu_time_percent.user + cpu_time_percent.system}
         elif chart == 'pie':
+            else_percent = 0.0
+            for i in range(5, 10):
+                else_percent += cpu_time_percent[i]
             cpu_info = {
                 'used_by_user': cpu_time_percent.user,
                 'used_by_system': cpu_time_percent.system,
-                'free': cpu_time_percent.idle
+                'free': cpu_time_percent.idle,
+                'else_percent': else_percent
             }
         return cpu_info
 
