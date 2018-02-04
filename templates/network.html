@@ -1,14 +1,10 @@
 {% extends 'base.html' %}
 {% block title %}Network Info{% endblock %}
-{% block head %}
-    {{ super() }}
-    <script src="{{ url_for("static", filename="js/auto-refresh.js") }}"></script>
-{% endblock %}
 {% block content %}
     <div class="page-header">
         <a {% if part == 'interfaces' %}id="display"{% endif %} href="{{ url_for('main.network', part='interfaces') }}">网络信息</a>
-        <a {% if part == 'connections' %}id="display"{% endif %}
-           href="{{ url_for('main.network', part='connections') }}">网络链接</a>
+        <a {% if part == 'connections' %}id="display"{% endif %} href="{{ url_for('main.network', part='connections') }}">网络链接</a>
+        <a {% if part == 'traffic' %}id="display"{% endif %} href="{{ url_for('main.network', part='traffic') }}">数据流量</a>
     </div>
     <div>
         {% block network %}{% endblock %}

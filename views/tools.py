@@ -32,6 +32,11 @@ def get_rlimits(process):
     }
 
 
+# B to M
+def b_to_m(value):
+    return round(value / 1048576.0, 2)
+
+
 class CustomResponse(Response):
     @classmethod
     def force_type(cls, response, environ=None):

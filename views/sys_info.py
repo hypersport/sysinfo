@@ -1,7 +1,7 @@
 # coding=utf-8
 from . import main
 from flask import render_template
-from .tools import get_rlimits
+from .tools import get_rlimits, b_to_m
 import os
 import psutil
 import datetime
@@ -163,8 +163,8 @@ def network(part):
                 addrs[17][0]['addr'],  # MAC address
                 ipv4_addr,
                 ipv6_addr,
-                net_io_counts[interface].bytes_sent,
-                net_io_counts[interface].bytes_recv,
+                b_to_m(net_io_counts[interface].bytes_sent),
+                b_to_m(net_io_counts[interface].bytes_recv),
                 net_io_counts[interface].packets_sent,
                 net_io_counts[interface].packets_recv,
                 net_io_counts[interface].errin,
@@ -176,6 +176,8 @@ def network(part):
     elif part == 'connections':
         context = psutil.net_connections(kind='all')
         context.sort(key=lambda connect: connect.status if connect.status != 'NONE' else 'z')
+    elif part == 'traffic':
+        return render_template('network/traffic-statistics.html', part=part)
     else:
         return render_template('404.html'), 404
 
@@ -263,13 +265,26 @@ def api(part, chart):
             memory_info = {'used_mem_percent': context.percent}
         elif chart == 'column':
             memory_info = {
-                # all the data convert to the unit of M
-                'total': round(context.total / 1048576.0, 2),
-                'available': round(context.available / 1048576.0, 2),
-                'used': round(context.used / 1048576.0, 2),
-                'free': round(context.free / 1048576.0, 2),
-                'buffers': round(context.buffers / 1048576.0, 2),
-                'cached': round(context.cached / 1048576.0, 2),
-                'shared': round(context.shared / 1048576.0, 2),
+                'total': b_to_m(context.total),
+                'available': b_to_m(context.available),
+                'used': b_to_m(context.used),
+                'free': b_to_m(context.free),
+                'buffers': b_to_m(context.buffers),
+                'cached': b_to_m(context.cached),
+                'shared': b_to_m(context.shared),
             }
         return memory_info
+
+    elif part == 'traffic':
+        net_io_counts = psutil.net_io_counters(pernic=True)
+        traffic_statistics = []
+        for interface in net_io_counts:
+            interface_dict = {}
+            interface_dict[interface] = [
+                b_to_m(net_io_counts[interface].bytes_sent),
+                b_to_m(net_io_counts[interface].bytes_recv),
+                net_io_counts[interface].packets_sent,
+                net_io_counts[interface].packets_recv
+            ]
+            traffic_statistics.append(interface_dict)
+        return traffic_statistics

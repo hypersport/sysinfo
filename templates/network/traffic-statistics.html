@@ -1,0 +1,127 @@
+{% extends 'network.html' %}
+{% block head %}
+    {{ super() }}
+    {#<script src="https://code.highcharts.com/highcharts.src.js"></script>#}
+    <script src="{{ url_for("static", filename="js/highcharts.src.js") }}"></script>
+    <script src="{{ url_for("static", filename="js/exporting.js") }}"></script>
+    <script src="{{ url_for("static", filename="js/get-info.js") }}"></script>
+    <style type="text/css">
+        #container {
+            min-width: 310px;
+            height: 400px;
+            margin: 0 auto;
+        }
+
+        #buttons-position {
+            margin: 10px;
+            position: absolute;
+            left: 61.8%;
+        }
+    </style>
+{% endblock %}
+{% block network %}
+    <div id="container"></div>
+    <div id="buttons-position">
+        <button id="traff" style="color: #2985DD">数据流量统计</button>
+        <button id="packages">数据包统计</button>
+    </div>
+    <script type="text/javascript">
+        trafficStatistics = getInfoData('traffic');
+        interfaces = [];
+        sentStatistics = [];
+        receivedStatistics = [];
+        sentPackages = [];
+        receivedPackages = [];
+        for (i = 0; i < trafficStatistics.length; i++) {
+            for (key in trafficStatistics[i]) {
+                interfaces.push(key);
+                sentStatistics.push(trafficStatistics[i][key][0]);
+                receivedStatistics.push(trafficStatistics[i][key][1]);
+                sentPackages.push(trafficStatistics[i][key][2]);
+                receivedPackages.push(trafficStatistics[i][key][3]);
+            }
+        }
+
+        var chat = Highcharts.chart('container', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: '端口数据流量统计图'
+            },
+            // subtitle: {
+            //     text: 'Source: WorldClimate.com'
+            // },
+            xAxis: {
+                categories: interfaces,
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '数据'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:14px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: '发送 (MB)',
+                data: sentStatistics
+
+            }, {
+                name: '接收 (MB)',
+                data: receivedStatistics
+
+            }]
+        });
+
+        $('#traff').click(function () {
+            this.style.color = '#2985DD';
+            $(this).siblings().css("color", "#000000");
+            chat.update({
+                title: {
+                    text: '端口数据流量统计图'
+                },
+                series: [{
+                    name: '发送 (MB)',
+                    data: sentStatistics
+
+                }, {
+                    name: '接收 (MB)',
+                    data: receivedStatistics
+
+                }]
+            })
+        });
+        $('#packages').click(function () {
+            this.style.color = '#2985DD';
+            $(this).siblings().css("color", "#000000");
+            chat.update({
+                title: {
+                    text: '端口数据包统计图'
+                },
+                series: [{
+                    name: '发送包',
+                    data: sentPackages
+
+                }, {
+                    name: '接收包',
+                    data: receivedPackages
+
+                }]
+            })
+        });
+    </script>
+{% endblock %}

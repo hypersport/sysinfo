@@ -2,6 +2,7 @@ $(document).ready(function () {
     refresh;
     setInterval(refresh, 3000);
 });
+
 // auto refresh page
 var notRefresh = false;
 function refresh() {

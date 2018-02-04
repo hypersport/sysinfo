@@ -1,4 +1,8 @@
 {% extends 'network.html' %}
+{% block head %}
+    {{ super() }}
+    <script src="{{ url_for("static", filename="js/auto-refresh.js") }}"></script>
+{% endblock %}
 {% block network %}
     <div class="table-div" id="network">
         <table class="table table-bordered">
@@ -7,8 +11,8 @@
                 <td>MAC 地址</td>
                 <td>Ipv4 地址</td>
                 <td>Ipv6 地址</td>
-                <td>发送 Bytes</td>
-                <td>接收 Bytes</td>
+                <td>发送 MB</td>
+                <td>接收 MB</td>
                 <td>发送包</td>
                 <td>接收包</td>
                 <td>Error In</td>
