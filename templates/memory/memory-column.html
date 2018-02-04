@@ -23,7 +23,7 @@
 {% block memory_swap %}
     <div id="container"></div>
     <div id="buttons-position">
-        <button id="plain">柱形图</button>
+        <button id="plain" style="color: #2985DD">柱形图</button>
         <button id="inverted">条形图</button>
         <button id="polar">极地图</button>
     </div>
@@ -60,6 +60,8 @@
 
 
         $('#plain').click(function () {
+            this.style.color = '#2985DD';
+            $(this).siblings().css("color", "#000000");
             chart.update({
                 chart: {
                     inverted: false,
@@ -72,6 +74,8 @@
         });
 
         $('#inverted').click(function () {
+            this.style.color = '#2985DD';
+            $(this).siblings().css("color", "#000000");
             chart.update({
                 chart: {
                     inverted: true,
@@ -84,6 +88,8 @@
         });
 
         $('#polar').click(function () {
+            this.style.color = '#2985DD';
+            $(this).siblings().css("color", "#000000");
             chart.update({
                 chart: {
                     inverted: false,
