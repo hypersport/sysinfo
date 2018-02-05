@@ -16,7 +16,7 @@ sysinfo 使用 Python Flask 框架和 psutil 开发的一个中文版 Linux 服�
 
 2. 进入目录执行 `python run.py` 启动应用
 
-3. web 页面访问 [http://localhost:9468](http://localhost:9468) ，修改 [auto-refresh.js](./static/js/auto-refresh.js) 文件中的　`notRefresh`　可配置是否自动刷新，默认每 3 秒刷新一次。
+3. web 页面访问 [http://localhost:9468](http://localhost:9468) ，修改 [auto-refresh.js](./static/js/auto-refresh.js) 文件中的 `notRefresh` 可配置是否自动刷新，默认每 3 秒刷新一次。
 
 #### 运行截图
 
