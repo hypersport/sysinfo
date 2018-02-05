@@ -187,6 +187,7 @@ def network(part):
 @main.route('/processes', defaults={'sort': 'cpu', 'order': 'desc'})
 @main.route('/processes/<string:sort>')
 @main.route('/processes/<string:sort>/<string:order>')
+@main.before_app_first_request
 def all_process(sort='cpu', order='asc'):
     processes = []
     for p in psutil.process_iter():
