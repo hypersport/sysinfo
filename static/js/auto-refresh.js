@@ -1,14 +1,16 @@
 $(document).ready(function () {
-    refresh;
-    setInterval(refresh, 3000);
+    setInterval(refresh, 3000)
 });
 
 // auto refresh page
-var notRefresh = false;
+var notRefresh = true;
+
 function refresh() {
     if (notRefresh) {
         return;
     }
+    // window.location.href = location.href
+
     $.ajax({
         url: location.href,
         cache: false,
