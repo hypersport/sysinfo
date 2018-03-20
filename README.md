@@ -7,7 +7,9 @@ sysinfo 使用 Python Flask 框架和 psutil 开发的一个中文版 Linux 服�
 #### 需要安装的 Python 包
 
 - flask
+
 - psutil
+
 - netifaces
 
 #### 运行
@@ -45,9 +47,13 @@ sysinfo 使用 Python Flask 框架和 psutil 开发的一个中文版 Linux 服�
 
 - 网络信息
 
-    1.网络信息 ![网络信息](./static/screenshots/networkinfo.png)
+    1.网络信息
 
-    2.数据流量 ![连接信息](./static/screenshots/networktraffic.png)
+    ![网络信息](./static/screenshots/networkinfo.png)
+
+    2.数据流量
+
+    ![连接信息](./static/screenshots/networktraffic.png)
 
 - 进程信息
 
