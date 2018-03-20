@@ -2,7 +2,7 @@
 
 #### 简介
 
-sysinfo 使用 Python Flask 框架和 psutil 开发的一个中文版 Linux 服务器信息查看应用，可查看的信息包括系统、CPU、内存、硬盘、进程、网络、登录用户等信息以及相应的数据图表。
+sysinfo 使用 Python Flask 框架和 psutil 开发的一个中文版 Linux 服务器信息查看应用，可查看的信息包括系统、CPU、内存、硬盘、进程、网络、登录用户等，同时可查看并导出部分数据的图表。
 
 #### 需要安装的 Python 包
 
@@ -38,22 +38,28 @@ sysinfo 使用 Python Flask 框架和 psutil 开发的一个中文版 Linux 服�
 
  ![内存信息](./static/screenshots/memorycolumn.png)
  （此图可点击选择展示类型）
-    
+
 - 硬盘信息
 
  ![硬盘信息](./static/screenshots/diskinfo.png)
-    
+
 - 网络信息
 
     1.网络信息 ![网络信息](./static/screenshots/networkinfo.png)
-    
+
     2.数据流量 ![连接信息](./static/screenshots/networktraffic.png)
-    
-- 进程信息 ![进程信息](./static/screenshots/processesinfo.png)
 
-- 单个进程详细信息 ![单进程信息](./static/screenshots/processinfo.png)
+- 进程信息
 
-- 登录用户 ![登录用户](./static/screenshots/users.png)
+ ![进程信息](./static/screenshots/processesinfo.png)
+
+- 单个进程详细信息
+
+![单进程信息](./static/screenshots/processinfo.png)
+
+- 登录用户
+
+ ![登录用户](./static/screenshots/usersinfo.png)
 
 #### 致谢
 
