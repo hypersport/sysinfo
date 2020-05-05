@@ -1,11 +1,8 @@
-# coding=utf-8
 from flask import Flask
 from views import main
 from views.custom_filters import format_time, format_size, socket_type, socket_family, format_addr_port
-from views.tools import CustomResponse
 
 app = Flask(__name__)
-app.response_class = CustomResponse
 app.add_template_filter(format_time)
 app.add_template_filter(format_size)
 app.add_template_filter(socket_type)

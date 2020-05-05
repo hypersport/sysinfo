@@ -1,5 +1,5 @@
 from datetime import datetime
-from tools import socket_families, socket_types
+from .tools import socket_families, socket_types
 
 B_TO_G = 1073741824.0
 B_TO_M = 1048576.0
