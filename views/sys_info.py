@@ -1,6 +1,5 @@
-# coding=utf-8
 from . import main
-from flask import render_template
+from flask import render_template, jsonify
 from .tools import get_rlimits, b_to_m
 import os
 import psutil
@@ -103,7 +102,8 @@ def disks(part='disk', sort='space_free', order='desc'):
         context = []
         physical_disk_partitions = psutil.disk_partitions()
         for physical_disk_partition in physical_disk_partitions:
-            physical_disk_usage = psutil.disk_usage(physical_disk_partition.mountpoint)
+            physical_disk_usage = psutil.disk_usage(
+                physical_disk_partition.mountpoint)
             physical_disk = {
                 'device': physical_disk_partition.device,
                 'mount_point': physical_disk_partition.mountpoint,
@@ -132,7 +132,8 @@ def disks(part='disk', sort='space_free', order='desc'):
                 'space_free': disk_usage.free
             }
             context.append(disk)
-        context.sort(key=lambda partition: partition.get(sort), reverse=True if order == 'desc' else False)
+        context.sort(key=lambda partition: partition.get(sort),
+                     reverse=True if order == 'desc' else False)
 
     elif part == 'io':
         context = psutil.disk_io_counters(perdisk=True)
@@ -175,7 +176,8 @@ def network(part):
             context.append(interface_dict)
     elif part == 'connections':
         context = psutil.net_connections(kind='all')
-        context.sort(key=lambda connect: connect.status if connect.status != 'NONE' else 'z')
+        context.sort(
+            key=lambda connect: connect.status if connect.status != 'NONE' else 'z')
     elif part == 'traffic':
         return render_template('network/traffic-statistics.html', part=part)
     else:
@@ -204,7 +206,8 @@ def all_process(sort='cpu', order='asc'):
             'cmdline': ' '.join(p.cmdline())
         }
         processes.append(process_info)
-        processes.sort(key=lambda proc: proc.get(sort), reverse=True if order == 'desc' else False)
+        processes.sort(key=lambda proc: proc.get(sort),
+                       reverse=True if order == 'desc' else False)
     return render_template('processes.html', processes=processes, sort=sort, order=order)
 
 
@@ -217,8 +220,10 @@ def process(pid, part):
     if part in parts:
         parent_process = the_process.parent()
         process_info = the_process.as_dict()
-        process_info['parent'] = parent_process.name() if parent_process else None
-        process_info['cpu_affinity'] = [str(n) for n in process_info['cpu_affinity']]
+        process_info['parent'] = parent_process.name(
+        ) if parent_process else None
+        process_info['cpu_affinity'] = [
+            str(n) for n in process_info['cpu_affinity']]
     elif part == 'limits':
         process_info['limits'] = get_rlimits(the_process)
     elif part == 'children':
@@ -246,7 +251,8 @@ def api(part, chart):
         cpu_info = {}
         cpu_time_percent = psutil.cpu_times_percent()
         if chart == 'line':
-            cpu_info = {'used_cpu_percent': cpu_time_percent.user + cpu_time_percent.system}
+            cpu_info = {'used_cpu_percent': cpu_time_percent.user +
+                        cpu_time_percent.system}
         elif chart == 'pie':
             else_percent = 0.0
             for i in range(5, 10):
@@ -288,4 +294,4 @@ def api(part, chart):
                 net_io_counts[interface].packets_recv
             ]
             traffic_statistics.append(interface_dict)
-        return traffic_statistics
+        return jsonify(traffic_statistics)
