@@ -2,8 +2,11 @@ function getInfoData(part, chart) {
     var infoData = 0;
     var part = part || 'cpu';
     var chart = chart || 'line';
+    var fullPath = window.location.href;
+    var pathName = window.location.pathname;
+    var host = fullPath.substring(0, fullPath.indexOf(pathName));
     $.ajax({
-        url: "http://localhost:9468/api/" + part + "/" + chart,
+        url: host + "/api/" + part + "/" + chart,
         cache: false,
         async: false,
         dataType: "json",
